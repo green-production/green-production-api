@@ -1,10 +1,18 @@
-var express = require("express");
-var app = express();
+// Require the framework and instantiate it
+const fastify = require('fastify')({ logger: true })
 
-app.get("/url", (req, res, next) => {
-    res.json(["Tony","Lisa","Michael","Ginger","Food"]);
-   });
+// Declare a route
+fastify.get('/', async (request, reply) => {
+  return { hello: 'world' }
+})
 
-app.listen(3000, () => {
- console.log("Server running on port 3000");
-});
+// Run the server!
+const start = async () => {
+  try {
+    await fastify.listen(3000)
+  } catch (err) {
+    fastify.log.error(err)
+    process.exit(1)
+  }
+}
+start()
