@@ -97,7 +97,6 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             let listId = uuidv4();
-            let whenCreated = Date.now();
             let list = {
                 _id: listId,
                 type: docName,
@@ -119,10 +118,11 @@ module.exports = {
                     'zip' : zip,
                     'country' : country,
                     'role' : role,
-                    'sold_product_ID' : sold_product_ID
+                    'sold_product_ID' : sold_product_ID,
+                    'created_dt': new Date(Date.now()).toISOString(),
+                    'updated_dt': new Date(Date.now()).toISOString()
                 }],
-                created_dt: whenCreated,
-                updated_dt: Date.now()
+                
             };
             mydb.insert(list, (err, result) => {
                 if (err) {
@@ -143,9 +143,7 @@ module.exports = {
                 _id: id,
                 type: 'Users',
                 _rev: rev,
-                user_details: newUserDetails,
-                created_dt: Date.now(),
-                updated_dt: Date.now()
+                user_details: newUserDetails
             };
             mydb.insert(list, (err, response) => {
                 if (err) {

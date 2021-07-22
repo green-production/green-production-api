@@ -12,6 +12,14 @@ const {
 const utils = require('./utils/utils');
 
 // Get User-Info route
+fastify.get('/', async function (request, reply) {
+
+  var data = new Date();
+
+  reply.send(data)
+})
+
+// Get User-Info route
 fastify.get('/get-user', async function (request, reply) {
 
   //Get Document by ID
@@ -26,7 +34,7 @@ fastify.get('/get-user', async function (request, reply) {
 fastify.post('/new-user', async function (request, reply) {
   console.log(request.body);
 
-  //Get Document
+  // //Get Document
   //var data = await utils.getDocumentFromDB('Users');
 
   // //Create Document
@@ -78,7 +86,9 @@ fastify.post('/new-user', async function (request, reply) {
     'zip' : request.body.zip,
     'country' : request.body.country,
     'role' : request.body.role,
-    'sold_product_ID' : request.body.sold_product_ID
+    'sold_product_ID' : request.body.sold_product_ID,
+    'created_dt': new Date(Date.now()).toISOString(),
+    'updated_dt': new Date(Date.now()).toISOString()
   };
   console.log(UserObj);
 
