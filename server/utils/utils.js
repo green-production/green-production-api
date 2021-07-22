@@ -1,8 +1,14 @@
-// Load the Cloudant service config.
-const vcap = require('../config/vcap-local.json');
-  
 // Load the Cloudant library.
 var Cloudant = require('@cloudant/cloudant');
+
+//Load UUID
+const { 
+    v1: uuidv1,
+    v4: uuidv4,
+  } = require('uuid');
+
+// Load the Cloudant service config.
+const vcap = require('../config/vcap-local.json');
 
 // Get account details from environment variables
 var url = vcap.services.cloudantNoSQLDB.credentials.url;
@@ -25,12 +31,12 @@ module.exports = {
         });
     },
       
-    getDocumentFromDB: function getDocumentFromDB() {  
+    getDocumentFromDB: function getDocumentFromDB(docName) {  
         var mydb = cloudant.db.use('green-production');
         //var myData;
             
         return new Promise((resolve, reject) => {
-            mydb.get('Users', (err, document) => {
+            mydb.get(docName, (err, document) => {
                 if (err) {
                     if (err.message == 'missing') {
                         logger.warn(`Document id ${id} does not exist.`, 'findById()');
@@ -46,6 +52,67 @@ module.exports = {
         });     
 
         //return myData;
+    },
+
+    createDocument: function createDocument(
+        docName,
+        userName,
+        password,
+        email,
+        full_name,
+        dob,
+        gender,
+        security_question_ID,
+        sercure_answer,
+        street_address_1,
+        street_address_2,
+        city,
+        state,
+        zip,
+        country,
+        role,
+        sold_product_ID
+        ) {
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => {
+            let listId = uuidv4();
+            let whenCreated = Date.now();
+            let list = {
+                _id: listId,
+                type: docName,
+                user_details: [
+                    {                    
+                    'user_ID': listId,
+                    'user_name' : userName,
+                    'password' : password,
+                    'email' : email,
+                    'full_name' : full_name,
+                    'dob' : dob,
+                    'gender' : gender,
+                    'security_question_ID' : security_question_ID,
+                    'secure_answer' : sercure_answer,
+                    'street_address_1' : street_address_1,
+                    'street_address_2' : street_address_2,
+                    'city' : city,
+                    'state' : state,
+                    'zip' : zip,
+                    'country' : country,
+                    'role' : role,
+                    'sold_product_ID' : sold_product_ID
+                }],
+                created_dt: whenCreated,
+                updated_dt: Date.now()
+            };
+            mydb.insert(list, (err, result) => {
+                if (err) {
+                    logger.error('Error occurred: ' + err.message, 'create()');
+                    reject(err);
+                } else {
+                    resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
+                }
+            });
+        });
     }
 
 }
