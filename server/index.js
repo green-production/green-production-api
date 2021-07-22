@@ -20,14 +20,37 @@ fastify.get('/', async function (request, reply) {
 })
 
 // Get User-Info route
-fastify.get('/get-user', async function (request, reply) {
-
-  //Get Document by ID
-  //var data = await utils.getDocumentFromDB('Users');
+fastify.post('/get-user', async function (request, reply) {
   
-  //createCloudantDB();
+  //Find all available docs
+  var docList = await utils.findAllDocs();
+  var username = request.body.userName;
 
-  reply.send(data)
+  var id = '';
+  var rev = '';
+  var user_details = [];
+
+  if(docList != null && docList.data != null && docList.data.total_rows > 0)
+  {
+    docList.data.rows.forEach(element => {
+
+      //Extract information from Users document
+      if(element.doc.type == 'Users')
+      {
+        id = element.id;
+        rev = element.doc._rev;
+
+        element.doc.user_details.forEach(user => {
+
+          if(user.user_name == username) {
+            user_details = user;
+          }          
+        });        
+      }
+    });    
+  }
+
+  reply.send(user_details)
 })
 
 //Create New User
