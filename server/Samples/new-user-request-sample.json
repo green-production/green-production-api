@@ -1,0 +1,18 @@
+{
+    "user_name": "swadhin.m",
+    "password": "r1421o8y4",
+    "email": "swadhin.mukherjee@gmai.com",
+    "full_name": "Swadhin Mukherjee",
+    "dob": "01/02/1913",
+    "gender": "M",
+    "security_question_ID": "1",
+    "secure_answer": "Kolkata",
+    "street_address_1": "GHE Street",
+    "street_address_2": "Street T",
+    "city": "Kolkata",
+    "state": "WB",
+    "zip": "700036",
+    "country": "India",
+    "role": "Role_Seller",
+    "sold_product_ID": ""
+}

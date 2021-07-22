@@ -19,11 +19,12 @@ fastify.get('/get-user', async function (request, reply) {
   
   //createCloudantDB();
 
-  reply.send({ data: data })
+  reply.send(data)
 })
 
 //Create New User
-fastify.get('/new-user', async function (request, reply) {
+fastify.post('/new-user', async function (request, reply) {
+  console.log(request.body);
 
   //Get Document
   //var data = await utils.getDocumentFromDB('Users');
@@ -38,6 +39,7 @@ fastify.get('/new-user', async function (request, reply) {
 
   //Find all available docs
   var docList = await utils.findAllDocs();
+
   var id = '';
   var rev = '';
   var user_details = [];
@@ -45,48 +47,48 @@ fastify.get('/new-user', async function (request, reply) {
   if(docList != null && docList.data != null && docList.data.total_rows > 0)
   {
     docList.data.rows.forEach(element => {
-      console.log('element', element);
-      console.log('type', element.doc.type);
-      console.log('user-details', element.doc.user_details);
 
+      console.log('element', element);
+
+      //Extract information from Users document
       if(element.doc.type == 'Users')
       {
         id = element.id;
         rev = element.doc._rev;
         user_details = element.doc.user_details;
       }
-      console.log('id', id);
-      console.log('user_details', user_details);
     });
   }
 
+  //Create new user object
   var UserObj = {
     'user_ID': uuidv1(),
-    'user_name' : 'soumya.das',
-    'password' : 'test12344',
-    'email' : 'soumya.das@gmai.com',
-    'full_name' : 'Soumya Das',
-    'dob' : '01/02/1931',
-    'gender' : 'M',
-    'security_question_ID' : '1',
-    'secure_answer' : 'Kolkata',
-    'street_address_1' : 'ABC Street',
-    'street_address_2' : 'Street 2',
-    'city' : 'Kolkata',
-    'state' : 'WB',
-    'zip' : '700032',
-    'country' : 'India',
-    'role' : 'Role_Consumer',
-    'sold_product_ID' : ''
+    'user_name' : request.body.user_name,
+    'password' : request.body.password,
+    'email' : request.body.email,
+    'full_name' : request.body.full_name,
+    'dob' : request.body.dob,
+    'gender' : request.body.gender,
+    'security_question_ID' : request.body.security_question_ID,
+    'secure_answer' : request.body.secure_answer,
+    'street_address_1' : request.body.street_address_1,
+    'street_address_2' : request.body.street_address_2,
+    'city' : request.body.city,
+    'state' : request.body.state,
+    'zip' : request.body.zip,
+    'country' : request.body.country,
+    'role' : request.body.role,
+    'sold_product_ID' : request.body.sold_product_ID
   };
+  console.log(UserObj);
 
+  //Modifiy existing User_Details array from document
   user_details.push(UserObj);
-  console.log('newUserDetails', user_details);
 
+  //Insert updated user details array
   var docInfo = await utils.insertUserInfo(id, rev, user_details);
-  console.log('docinfo', docInfo);   
 
-  reply.send(docList.data)
+  reply.send(docInfo)
 })
 
 // Run the server!
