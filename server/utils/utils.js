@@ -103,7 +103,7 @@ module.exports = {
                 type: docName,
                 user_details: [
                     {                    
-                    'user_ID': listId,
+                    'user_ID': uuidv1(),
                     'user_name' : userName,
                     'password' : password,
                     'email' : email,
@@ -135,30 +135,24 @@ module.exports = {
         });
     },
 
-    insertUserInfo: function insertUserInfo(id) {
+    insertUserInfo: function insertUserInfo(id, rev, newUserDetails) {
         var mydb = cloudant.db.use('green-production');
 
-        return new Promise((resolve, reject) => {
-            // Retrieve the list (need the rev)
-            findById(id).then((response) => {
-                console.log('response', response);
-                // // Parse the stringified JSON
-                // let list = JSON.parse(response.data);
-                // // Update the description
-                // list.description = description;
-                // list.whenModified = Date.now();
-                // // Update the document in Cloudant
-                // db.insert(list, (err, response) => {
-                //     if (err) {
-                //         logger.error('Error occurred: ' + err.message, 'update()');
-                //         reject(err);
-                //     } else {
-                //         resolve({ data: { updatedId: response.id, updatedRevId: response.rev }, statusCode: 200 });
-                //     }
-                // });
-            }).catch((err) => {
-                logger.error('Error occurred: ' + err.message, 'update()');
-                reject(err);
+        return new Promise((resolve, reject) => { 
+            let list = {
+                _id: id,
+                type: 'Users',
+                _rev: rev,
+                user_details: newUserDetails,
+                created_dt: Date.now(),
+                updated_dt: Date.now()
+            };
+            mydb.insert(list, (err, response) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({ data: { updatedId: response.id, updatedRevId: response.rev }, statusCode: 200 });
+                }
             });
         });
     }
