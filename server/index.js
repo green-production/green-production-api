@@ -32,12 +32,8 @@ fastify.get('/get-user', async function (request, reply) {
 
 //Create New User
 fastify.post('/new-user', async function (request, reply) {
-  console.log(request.body);
 
-  // //Get Document
-  //var data = await utils.getDocumentFromDB('Users');
-
-  // //Create Document
+  // //Create New Document
   // var data = await utils.createDocument(
   //   'Users', 'soham.chattopadhyay', 'test123','soham.chattopadhyay93@gmail.com',
   //   'Soham Chattopadhyay', '01/01/1905', 'M', '1', 'Kolkata',
@@ -55,8 +51,6 @@ fastify.post('/new-user', async function (request, reply) {
   if(docList != null && docList.data != null && docList.data.total_rows > 0)
   {
     docList.data.rows.forEach(element => {
-
-      console.log('element', element);
 
       //Extract information from Users document
       if(element.doc.type == 'Users')
@@ -90,12 +84,11 @@ fastify.post('/new-user', async function (request, reply) {
     'created_dt': new Date(Date.now()).toISOString(),
     'updated_dt': new Date(Date.now()).toISOString()
   };
-  console.log(UserObj);
 
   //Modifiy existing User_Details array from document
   user_details.push(UserObj);
 
-  //Insert updated user details array
+  //Insert updated user details array in Users document
   var docInfo = await utils.insertUserInfo(id, rev, user_details);
 
   reply.send(docInfo)
