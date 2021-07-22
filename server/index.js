@@ -34,7 +34,7 @@ fastify.get('/get-user', async function (request, reply) {
 fastify.post('/new-user', async function (request, reply) {
 
   // //Create New Document
-  // var data = await utils.createDocument(
+  // var data = await utils.createUsersDocument(
   //   'Users', 'soham.chattopadhyay', 'test123','soham.chattopadhyay93@gmail.com',
   //   'Soham Chattopadhyay', '01/01/1905', 'M', '1', 'Kolkata',
   //   'Selimpur Road, Dhakuria', '', 'Kolkata', 'WB', '700031', 'India',

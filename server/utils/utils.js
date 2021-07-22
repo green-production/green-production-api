@@ -74,7 +74,8 @@ module.exports = {
         //return myData;
     },
 
-    createDocument: function createDocument(
+    //Create new Users document
+    createUsersDocument: function createUsersDocument(
         docName,
         userName,
         password,
@@ -135,6 +136,7 @@ module.exports = {
         });
     },
 
+    //Insert new user-datails in Users document
     insertUserInfo: function insertUserInfo(id, rev, newUserDetails) {
         var mydb = cloudant.db.use('green-production');
 
