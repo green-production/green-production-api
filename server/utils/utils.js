@@ -28,11 +28,22 @@ module.exports = {
     getDocumentFromDB: function getDocumentFromDB() {  
         var mydb = cloudant.db.use('green-production');
         //var myData;
-    
-        return mydb.get('Users', function(err, data) {
-          console.log('data',data);  
-          //myData = JSON.stringify(data); 
-        });
+            
+        return new Promise((resolve, reject) => {
+            mydb.get('Users', (err, document) => {
+                if (err) {
+                    if (err.message == 'missing') {
+                        logger.warn(`Document id ${id} does not exist.`, 'findById()');
+                        resolve({ data: {}, statusCode: 404 });
+                    } else {
+                        logger.error('Error occurred: ' + err.message, 'findById()');
+                        reject(err);
+                    }
+                } else {
+                    resolve({ data: JSON.stringify(document), statusCode: 200 });
+                }
+            });
+        });     
 
         //return myData;
     }

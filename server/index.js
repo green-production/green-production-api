@@ -6,12 +6,16 @@ const fastify = require('fastify')({
 const utils = require('./utils/utils');
 
 // Declare a route
-fastify.get('/', function (request, reply) {
+fastify.get('/', async function (request, reply) {
 
-  var data = utils.getDocumentFromDB();
+  var data = await utils.getDocumentFromDB();
+
   console.log('Get-DB-Data', data);
   
-  //createCloudantDB();
+  if(!(data != null && data.statusCode == 200))
+  {
+    createCloudantDB();
+  }
 
   reply.send({ data: data })
 })
