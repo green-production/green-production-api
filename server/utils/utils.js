@@ -30,6 +30,26 @@ module.exports = {
           console.log(err);
         });
     },
+
+    findAllDocs: function findAllDocs(){
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => {
+            mydb.list({include_docs:true}, function (err, document) {
+                if (err) {
+                    if (err.message == 'missing') {
+                        logger.warn(`Document id ${id} does not exist.`, 'findById()');
+                        resolve({ data: {}, statusCode: 404 });
+                    } else {
+                        logger.error('Error occurred: ' + err.message, 'findById()');
+                        reject(err);
+                    }
+                } else {
+                    resolve({ data: document, statusCode: 200 });
+                }
+            });
+        });
+    },
       
     getDocumentFromDB: function getDocumentFromDB(docName) {  
         var mydb = cloudant.db.use('green-production');
@@ -111,6 +131,34 @@ module.exports = {
                 } else {
                     resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
                 }
+            });
+        });
+    },
+
+    insertUserInfo: function insertUserInfo(id) {
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => {
+            // Retrieve the list (need the rev)
+            findById(id).then((response) => {
+                console.log('response', response);
+                // // Parse the stringified JSON
+                // let list = JSON.parse(response.data);
+                // // Update the description
+                // list.description = description;
+                // list.whenModified = Date.now();
+                // // Update the document in Cloudant
+                // db.insert(list, (err, response) => {
+                //     if (err) {
+                //         logger.error('Error occurred: ' + err.message, 'update()');
+                //         reject(err);
+                //     } else {
+                //         resolve({ data: { updatedId: response.id, updatedRevId: response.rev }, statusCode: 200 });
+                //     }
+                // });
+            }).catch((err) => {
+                logger.error('Error occurred: ' + err.message, 'update()');
+                reject(err);
             });
         });
     }

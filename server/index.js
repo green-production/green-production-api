@@ -23,14 +23,26 @@ fastify.get('/new-user', async function (request, reply) {
   //var data = await utils.getDocumentFromDB('Users');
 
   //Create Document
-  var data = await utils.createDocument(
-    'Users', 'soham.chattopadhyay', 'test123','soham.chattopadhyay93@gmail.com',
-    'Soham Chattopadhyay', '01/01/1905', 'M', '1', 'Kolkata',
-    'Selimpur Road, Dhakuria', '', 'Kolkata', 'WB', '700031', 'India',
-    'Role_Consumer', ''
-  );
+  // var data = await utils.createDocument(
+  //   'Users', 'soham.chattopadhyay', 'test123','soham.chattopadhyay93@gmail.com',
+  //   'Soham Chattopadhyay', '01/01/1905', 'M', '1', 'Kolkata',
+  //   'Selimpur Road, Dhakuria', '', 'Kolkata', 'WB', '700031', 'India',
+  //   'Role_Consumer', ''
+  // );
 
-  reply.send({ data: data })
+  //Find all available docs
+  var docList = await utils.findAllDocs();
+
+  if(docList != null && docList.data != null && docList.data.rows.length > 0)
+  {
+    docList.data.rows.forEach(element => {
+      console.log('element', element);
+      console.log('type', element.doc.type);
+      console.log('user-details', element.doc.user_details);
+    });
+  }
+
+  reply.send(docList.data)
 })
 
 // Run the server!
