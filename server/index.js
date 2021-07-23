@@ -65,7 +65,7 @@ fastify.post('/get-user', async function (request, reply) {
       }
     });    
   }
-  
+
   if(user_details != null && user_details.user_name) {
     reply.code(200).send(user_details)
   }
@@ -123,6 +123,44 @@ fastify.post('/new-user', async function (request, reply) {
 
   //Modifiy existing User_Details array from document
   user_details.push(UserObj);
+
+  //Insert updated user details array in Users document
+  var docInfo = await utils.insertUserInfo(id, rev, user_details);
+
+  reply.send(docInfo)
+})
+
+//Update Existing User
+fastify.post('/update-user', async function (request, reply) {
+
+  //Find all available docs
+  var docList = await utils.findAllDocs();
+
+  var id = '';
+  var rev = '';
+  var user_details = [];
+
+  var userID = request.body.user_ID;
+
+  if(docList != null && docList.data != null && docList.data.total_rows > 0)
+  {
+    docList.data.rows.forEach(element => {
+
+      //Extract information from Users document
+      if(element.doc.type == 'Users')
+      {
+        id = element.id;
+        rev = element.doc._rev;
+        user_details = element.doc.user_details;
+      }
+    });
+  }
+
+  user_details.forEach(user => {
+    if(user.user_ID == userID) {
+      user = utils.mapUserUpdatetoModel(user, request.body);
+    }         
+  });
 
   //Insert updated user details array in Users document
   var docInfo = await utils.insertUserInfo(id, rev, user_details);

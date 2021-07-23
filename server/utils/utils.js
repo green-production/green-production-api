@@ -19,6 +19,75 @@ var password = vcap.services.cloudantNoSQLDB.credentials.password;
 var cloudant = Cloudant({ url: url, username: username, password: password });
 
 module.exports = {
+    //Function to map update-user req to model
+    mapUserUpdatetoModel: function mapUserUpdatetoModel(user, request) { 
+
+        if(request.user_name){
+            user.user_name = request.user_name;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.password){
+            user.password = request.password;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.email){
+            user.email = request.email;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.full_name){
+            user.full_name = request.full_name;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.dob){
+            user.dob = request.dob;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.gender){
+            user.gender = request.gender;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.security_question_ID){
+            user.security_question_ID = request.security_question_ID;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.secure_answer){
+            user.secure_answer = request.secure_answer;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.street_address_1){
+            user.street_address_1 = request.street_address_1;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.street_address_2){
+            user.street_address_2 = request.street_address_2;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.city){
+            user.city = request.city;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.state){
+            user.state = request.state;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.zip){
+            user.zip = request.zip;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.country){
+            user.country = request.country;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.role){
+            user.role = request.role;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.sold_product_ID){
+            user.sold_product_ID = request.sold_product_ID;
+            user.updated_dt = new Date(Date.now()).toISOString();
+        }
+        return user;
+    },
 
     //Create Cloudant DB function
     createCloudantDB: function createCloudantDB() {  
