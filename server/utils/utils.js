@@ -161,7 +161,60 @@ module.exports = {
                 }
             });
         });
-    }
+    },
+
+    //#endregion
+
+    //#region Products Document helper functions
+
+    //Create new Users document
+    createProductsDocument: function createProductsDocument(
+        docName,
+        productName,
+        unitPrice,
+        quantity,
+        productMaterial,
+        recyclingCode,
+        sellerID,
+        sellerName,
+        productCategory,
+        productSubCategory
+        ) {
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => {
+            let listId = uuidv4();
+            let list = {
+                _id: listId,
+                type: docName,
+                product_details: [
+                    {                    
+                    'product_ID': uuidv1(),
+                    'product_name' : productName,
+                    'unit_price' : unitPrice,
+                    'quantity' : quantity,
+                    'product_material' : productMaterial,
+                    'recycling_code' : recyclingCode,
+                    'seller_ID' : sellerID,
+                    'seller_name' : sellerName,
+                    'product_category' : productCategory,
+                    'product_sub_category' : productSubCategory,
+                    'isApproved' : false,
+                    'created_dt': new Date(Date.now()).toISOString(),
+                    'updated_dt': new Date(Date.now()).toISOString()
+                }],
+                
+            };
+            mydb.insert(list, (err, result) => {
+                if (err) {
+                    logger.error('Error occurred: ' + err.message, 'create()');
+                    reject(err);
+                } else {
+                    resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
+                }
+            });
+        });
+    },
 
     //#endregion
 

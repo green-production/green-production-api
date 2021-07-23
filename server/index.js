@@ -73,14 +73,6 @@ fastify.post('/get-user', async function (request, reply) {
 //Create New User
 fastify.post('/new-user', async function (request, reply) {
 
-  // //Create New Document
-  // var data = await utils.createUsersDocument(
-  //   'Users', 'soham.chattopadhyay', 'test123','soham.chattopadhyay93@gmail.com',
-  //   'Soham Chattopadhyay', '01/01/1905', 'M', '1', 'Kolkata',
-  //   'Selimpur Road, Dhakuria', '', 'Kolkata', 'WB', '700031', 'India',
-  //   'Role_Consumer', ''
-  // );
-
   //Find all available docs
   var docList = await utils.findAllDocs();
 
@@ -137,6 +129,18 @@ fastify.post('/new-user', async function (request, reply) {
 //#endregion
 
 //#region Products Document APIs
+
+//Create a new Products document(Admin API - One time)
+fastify.post('/new-product-doc', async function (request, reply) {
+
+  //Create New Document
+  var data = await utils.createProductsDocument(
+    'Products', request.body.productName, request.body.unitPrice, request.body.quantity,
+    request.body.productMaterial, request.body.recyclingCode, request.body.sellerID, request.body.sellerName,
+    request.body.productCategory, request.body.productSubCategory);
+    
+  reply.send(data)
+})
 
 //#endregion
 
