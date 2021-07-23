@@ -19,8 +19,6 @@ fastify.get('/', async function (request, reply) {
   reply.send(data)
 })
 
-//#region Users Document APIs
-
 //Create a new Users document(Admin API - One time)
 fastify.post('/new-users-doc', async function (request, reply) {
 
@@ -42,10 +40,11 @@ fastify.post('/get-user', async function (request, reply) {
   //Find all available docs
   var docList = await utils.findAllDocs();
   var username = request.body.userName;
+  var password = request.body.password
 
   var id = '';
   var rev = '';
-  var user_details = [];
+  var user_details = {};
 
   if(docList != null && docList.data != null && docList.data.total_rows > 0)
   {
@@ -59,15 +58,20 @@ fastify.post('/get-user', async function (request, reply) {
 
         element.doc.user_details.forEach(user => {
 
-          if(user.user_name == username) {
+          if(user.user_name == username && user.password == password) {
             user_details = user;
-          }          
+          }         
         });        
       }
     });    
   }
-
-  reply.send(user_details)
+  
+  if(user_details != null && user_details.user_name) {
+    reply.code(200).send(user_details)
+  }
+  else {
+    reply.code(401).send(user_details)
+  }  
 })
 
 //Create New User
@@ -126,10 +130,6 @@ fastify.post('/new-user', async function (request, reply) {
   reply.send(docInfo)
 })
 
-//#endregion
-
-//#region Products Document APIs
-
 //Create a new Products document(Admin API - One time)
 fastify.post('/new-product-doc', async function (request, reply) {
 
@@ -141,8 +141,6 @@ fastify.post('/new-product-doc', async function (request, reply) {
     
   reply.send(data)
 })
-
-//#endregion
 
 // Run the server!
 fastify.listen(3000, function (err, address) {

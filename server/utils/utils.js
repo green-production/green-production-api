@@ -78,8 +78,6 @@ module.exports = {
         //return myData;
     },
 
-    //#region Users Document helper Functions
-
     //Create new Users document
     createUsersDocument: function createUsersDocument(
         docName,
@@ -163,10 +161,6 @@ module.exports = {
         });
     },
 
-    //#endregion
-
-    //#region Products Document helper functions
-
     //Create new Users document
     createProductsDocument: function createProductsDocument(
         docName,
@@ -215,7 +209,5 @@ module.exports = {
             });
         });
     },
-
-    //#endregion
 
 }
