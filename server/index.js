@@ -11,10 +11,27 @@ const {
 
 const utils = require('./utils/utils');
 
-// Get User-Info route
+// Test API
 fastify.get('/', async function (request, reply) {
 
   var data = new Date();
+
+  reply.send(data)
+})
+
+//#region Users Document APIs
+
+//Create a new Users document(Admin API - One time)
+fastify.post('/new-users-doc', async function (request, reply) {
+
+  //Create New Document
+  var data = await utils.createUsersDocument(
+    'Users', request.body.user_name, request.body.password, request.body.email,
+    request.body.full_name, request.body.dob, request.body.gender,
+    request.body.security_question_ID, request.body.secure_answer,
+    request.body.street_address_1, request.body.street_address_2,
+    request.body.city, request.body.state, request.body.zip, request.body.country,
+    request.body.role, request.body.sold_product_ID);
 
   reply.send(data)
 })
@@ -116,6 +133,12 @@ fastify.post('/new-user', async function (request, reply) {
 
   reply.send(docInfo)
 })
+
+//#endregion
+
+//#region Products Document APIs
+
+//#endregion
 
 // Run the server!
 fastify.listen(3000, function (err, address) {

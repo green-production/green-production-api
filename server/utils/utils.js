@@ -19,6 +19,8 @@ var password = vcap.services.cloudantNoSQLDB.credentials.password;
 var cloudant = Cloudant({ url: url, username: username, password: password });
 
 module.exports = {
+
+    //Create Cloudant DB function
     createCloudantDB: function createCloudantDB() {  
         var uniqueUserID = Math.random().toString(26).slice(2);
       
@@ -31,6 +33,7 @@ module.exports = {
         });
     },
 
+    //Find all docs in a DB
     findAllDocs: function findAllDocs(){
         var mydb = cloudant.db.use('green-production');
 
@@ -50,7 +53,8 @@ module.exports = {
             });
         });
     },
-      
+
+    //Fetch document based on doc name(doc ID)      
     getDocumentFromDB: function getDocumentFromDB(docName) {  
         var mydb = cloudant.db.use('green-production');
         //var myData;
@@ -73,6 +77,8 @@ module.exports = {
 
         //return myData;
     },
+
+    //#region Users Document helper Functions
 
     //Create new Users document
     createUsersDocument: function createUsersDocument(
@@ -156,5 +162,7 @@ module.exports = {
             });
         });
     }
+
+    //#endregion
 
 }
