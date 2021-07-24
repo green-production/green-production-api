@@ -12,15 +12,15 @@ const {
 const utils = require('./utils/utils');
 
 // Test API
-fastify.get('/', async function (request, reply) {
+fastify.get('/api', async function (request, reply) {
 
   var data = new Date();
 
-  reply.send(data)
+  reply.send({ hello: 'The time is ' + data })
 })
 
 //Create a new Users document(Admin API - One time)
-fastify.post('/new-users-doc', async function (request, reply) {
+fastify.post('/api/new-users-doc', async function (request, reply) {
 
   //Create New Document
   var data = await utils.createUsersDocument(
@@ -35,7 +35,7 @@ fastify.post('/new-users-doc', async function (request, reply) {
 })
 
 // Get User-Info
-fastify.post('/get-user', async function (request, reply) {
+fastify.post('/api/get-user', async function (request, reply) {
   
   //Find all available docs
   var docList = await utils.findAllDocs();
@@ -75,7 +75,7 @@ fastify.post('/get-user', async function (request, reply) {
 })
 
 //Create New User
-fastify.post('/new-user', async function (request, reply) {
+fastify.post('/api/new-user', async function (request, reply) {
 
   //Find all available docs
   var docList = await utils.findAllDocs();
@@ -131,7 +131,7 @@ fastify.post('/new-user', async function (request, reply) {
 })
 
 //Update Existing User
-fastify.post('/update-user', async function (request, reply) {
+fastify.post('/api/update-user', async function (request, reply) {
 
   //Find all available docs
   var docList = await utils.findAllDocs();
@@ -170,7 +170,7 @@ fastify.post('/update-user', async function (request, reply) {
 
 
 //Create a new Products document(Admin API - One time)
-fastify.post('/new-products-doc', async function (request, reply) {
+fastify.post('/api/new-products-doc', async function (request, reply) {
 
   //Create New Document
   var data = await utils.createProductsDocument(
@@ -182,7 +182,7 @@ fastify.post('/new-products-doc', async function (request, reply) {
 })
 
 //Create New Product
-fastify.post('/new-product', async function (request, reply) {
+fastify.post('/api/new-product', async function (request, reply) {
 
   //Find all available docs
   var docList = await utils.findAllDocs();
@@ -232,7 +232,7 @@ fastify.post('/new-product', async function (request, reply) {
 })
 
 //Update Existing Product (Admin can use this to approve a product)
-fastify.post('/update-product', async function (request, reply) {
+fastify.post('/api/update-product', async function (request, reply) {
 
   //Find all available docs
   var docList = await utils.findAllDocs();
@@ -270,7 +270,7 @@ fastify.post('/update-product', async function (request, reply) {
 })
 
 // Get All Products
-fastify.get('/get-all-products', async function (request, reply) {
+fastify.get('/api/get-all-products', async function (request, reply) {
   
   //Find all available docs
   var docList = await utils.findAllDocs();
@@ -293,7 +293,7 @@ fastify.get('/get-all-products', async function (request, reply) {
 })
 
 // Get Product Info
-fastify.post('/get-product-info', async function (request, reply) {
+fastify.post('/api/get-product-info', async function (request, reply) {
   
   //Find all available docs
   var docList = await utils.findAllDocs();
@@ -322,7 +322,7 @@ fastify.post('/get-product-info', async function (request, reply) {
 })
 
 // Get Seller Listings
-fastify.post('/get-seller-listings', async function (request, reply) {
+fastify.post('/api/get-seller-listings', async function (request, reply) {
   
   //Find all available docs
   var docList = await utils.findAllDocs();
