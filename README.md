@@ -8,7 +8,8 @@ The APIs are deployed in heroku.
   - API: https://greenytale.herokuapp.com/api/new-users-doc
   - Type: POST
   - Request
-  ``` 
+
+  ```JSON 
 {
     "user_name": "soham.chattopadhyay",
     "password": "test123",
@@ -40,10 +41,10 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
-    "userName":"aleem.sheik",
-    "password":"usertest12341asd"
+    "userName": "aleem.sheik",
+    "password": "usertest12341asd"
 }
 ```
 
@@ -52,7 +53,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
     "user_name": "swadhin.m",
     "password": "r1421o8y4",
@@ -85,7 +86,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
     "user_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0",
     "role": [
@@ -104,7 +105,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
     "product_name": "Clear Glass",
     "unit_price": "12",
@@ -123,7 +124,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
     "product_name": "Coloured Glass",
     "unit_price": "15",
@@ -142,7 +143,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
     "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9",
     "isApproved": true
@@ -163,7 +164,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
     "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9"
 }
@@ -174,7 +175,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
     "seller_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0"
 }
@@ -185,7 +186,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Request
 
-``` 
+```JSON 
 {
     "user_ID": "f0e76700-eafb-11eb-bffb-adf8fe07f4e0",
     "products": [
