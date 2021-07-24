@@ -10,24 +10,24 @@ The APIs are deployed in heroku.
   - Request
   ``` 
 {
-  "user_name": "soham.chattopadhyay",
-  "password": "test123",
-  "email": "soham.chattopadhyay93@gmail.com",
-  "full_name": "Soham Chattopadhyay",
-  "dob": "01/01/1905",
-  "gender": "M",
-  "security_question_ID": "1",
-  "secure_answer": "Kolkata",
-  "street_address_1": "Selimpur Road, Dhakuria",
-  "street_address_2": "",
-  "city": "Kolkata",
-  "state": "WB",
-  "zip": "700031",
-  "country": "India",
-  "role": [
-      "Role_Consumer"
-  ],
-  "sold_product_ID": ""
+    "user_name": "soham.chattopadhyay",
+    "password": "test123",
+    "email": "soham.chattopadhyay93@gmail.com",
+    "full_name": "Soham Chattopadhyay",
+    "dob": "01/01/1905",
+    "gender": "M",
+    "security_question_ID": "1",
+    "secure_answer": "Kolkata",
+    "street_address_1": "Selimpur Road, Dhakuria",
+    "street_address_2": "",
+    "city": "Kolkata",
+    "state": "WB",
+    "zip": "700031",
+    "country": "India",
+    "role": [
+        "Role_Consumer"
+    ],
+    "sold_product_ID": ""
 }
 ```
 
@@ -38,8 +38,8 @@ The APIs are deployed in heroku.
 
 ``` 
 {
-  "userName":"aleem.sheik",
-  "password":"usertest12341asd"
+    "userName":"aleem.sheik",
+    "password":"usertest12341asd"
 }
 ```
 
@@ -50,25 +50,25 @@ The APIs are deployed in heroku.
 
 ``` 
 {
-  "user_name": "swadhin.m",
-  "password": "r1421o8y4",
-  "email": "swadhin.mukherjee@gmai.com",
-  "full_name": "Swadhin Mukherjee",
-  "dob": "01/02/1913",
-  "gender": "M",
-  "security_question_ID": "1",
-  "secure_answer": "Kolkata",
-  "street_address_1": "GHE Street",
-  "street_address_2": "Street T",
-  "city": "Kolkata",
-  "state": "WB",
-  "zip": "700036",
-  "country": "India",
-  "role": [
-      "Role_Consumer",
-      "Role_Seller"
-  ],
-  "sold_product_ID": ""
+    "user_name": "swadhin.m",
+    "password": "r1421o8y4",
+    "email": "swadhin.mukherjee@gmai.com",
+    "full_name": "Swadhin Mukherjee",
+    "dob": "01/02/1913",
+    "gender": "M",
+    "security_question_ID": "1",
+    "secure_answer": "Kolkata",
+    "street_address_1": "GHE Street",
+    "street_address_2": "Street T",
+    "city": "Kolkata",
+    "state": "WB",
+    "zip": "700036",
+    "country": "India",
+    "role": [
+        "Role_Consumer",
+        "Role_Seller"
+    ],
+    "sold_product_ID": ""
 }
 ```
 
@@ -79,12 +79,12 @@ The APIs are deployed in heroku.
 
 ``` 
 {
-  "user_ID": "02c8e2f0-eafc-11eb-bffb-adf8fe07f4e0",
-  "password": "usertest12341asd",
-  "full_name": "Aleem Sheik 3",
-  "role": [
-      "Role_Consumer",
-      "Role_Seller"
+    "user_ID": "02c8e2f0-eafc-11eb-bffb-adf8fe07f4e0",
+    "password": "usertest12341asd",
+    "full_name": "Aleem Sheik 3",
+    "role": [
+        "Role_Consumer",
+        "Role_Seller"
     ]
 }
 ```
@@ -96,15 +96,15 @@ The APIs are deployed in heroku.
 
 ``` 
 {
-  "product_name": "Clear Glass",
-  "unit_price": "12",
-  "quantity": "200",
-  "product_material": "Glass",
-  "recycling_code": "#70 GL",
-  "seller_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0",
-  "seller_name": "Swadhin Mukherjee",
-  "product_category": "Materials",
-  "product_sub_category": "Fragile Materials"
+    "product_name": "Clear Glass",
+    "unit_price": "12",
+    "quantity": "200",
+    "product_material": "Glass",
+    "recycling_code": "#70 GL",
+    "seller_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0",
+    "seller_name": "Swadhin Mukherjee",
+    "product_category": "Materials",
+    "product_sub_category": "Fragile Materials"
 }
 ```
 
@@ -115,15 +115,15 @@ The APIs are deployed in heroku.
 
 ``` 
 {
-  "product_name": "Coloured Glass",
-  "unit_price": "15",
-  "quantity": "150",
-  "product_material": "Glass",
-  "recycling_code": "#70 GL",
-  "seller_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0",
-  "seller_name": "Swadhin Mukherjee",
-  "product_category": "Materials",
-  "product_sub_category": "Fragile Materials"
+    "product_name": "Coloured Glass",
+    "unit_price": "15",
+    "quantity": "150",
+    "product_material": "Glass",
+    "recycling_code": "#70 GL",
+    "seller_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0",
+    "seller_name": "Swadhin Mukherjee",
+    "product_category": "Materials",
+    "product_sub_category": "Fragile Materials"
 }
 ```
 
@@ -134,8 +134,8 @@ The APIs are deployed in heroku.
 
 ``` 
 {
-  "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9",
-  "isApproved": true
+    "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9",
+    "isApproved": true
 }
 ```
 
@@ -145,7 +145,7 @@ The APIs are deployed in heroku.
   - Request
 
 ``` 
-No request requried
+  No request requried
 ```
 
 #### 9. Get Product Info
@@ -155,7 +155,7 @@ No request requried
 
 ``` 
 {
-  "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9"
+    "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9"
 }
 ```
 
@@ -166,7 +166,7 @@ No request requried
 
 ``` 
 {
-  "seller_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0"
+    "seller_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0"
 }
 ```
 
