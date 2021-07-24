@@ -1,5 +1,0 @@
----
-applications:
- - name: GreenyTaleAPI
-   random-route: true
-   memory: 256M
