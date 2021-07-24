@@ -34,7 +34,7 @@ fastify.post('/new-users-doc', async function (request, reply) {
   reply.send(data)
 })
 
-// Get User-Info route
+// Get User-Info
 fastify.post('/get-user', async function (request, reply) {
   
   //Find all available docs
@@ -268,6 +268,32 @@ fastify.post('/update-product', async function (request, reply) {
 
   reply.send(docInfo)
 })
+
+// Get All Products
+fastify.get('/get-all-products', async function (request, reply) {
+  
+  //Find all available docs
+  var docList = await utils.findAllDocs();
+  
+  var product_details = [];
+
+  if(docList != null && docList.data != null && docList.data.total_rows > 0)
+  {
+    docList.data.rows.forEach(element => {
+
+      //Extract information from Products document
+      if(element.doc.type == 'Products')
+      {
+        product_details = element.doc.product_details;        
+      }
+    });    
+  }
+
+  reply.code(200).send(product_details)  
+})
+
+
+
 
 // Run the server!
 fastify.listen(3000, function (err, address) {
