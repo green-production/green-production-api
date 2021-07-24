@@ -16,8 +16,12 @@ The APIs are deployed in heroku.
     "full_name": "Soham Chattopadhyay",
     "dob": "01/01/1905",
     "gender": "M",
-    "security_question_ID": "1",
-    "secure_answer": "Kolkata",
+    "secure_login_recovery": [
+        {
+            "security_question_ID": "1",
+            "secure_answer": "Kolkata"
+        }
+    ],
     "street_address_1": "Selimpur Road, Dhakuria",
     "street_address_2": "",
     "city": "Kolkata",
@@ -27,7 +31,7 @@ The APIs are deployed in heroku.
     "role": [
         "Role_Consumer"
     ],
-    "sold_product_ID": ""
+    "sold_product_ID": []
 }
 ```
 
@@ -56,8 +60,12 @@ The APIs are deployed in heroku.
     "full_name": "Swadhin Mukherjee",
     "dob": "01/02/1913",
     "gender": "M",
-    "security_question_ID": "1",
-    "secure_answer": "Kolkata",
+    "secure_login_recovery": [
+        {
+            "security_question_ID": "1",
+            "secure_answer": "Kolkata"
+        }
+    ],
     "street_address_1": "GHE Street",
     "street_address_2": "Street T",
     "city": "Kolkata",
@@ -68,7 +76,7 @@ The APIs are deployed in heroku.
         "Role_Consumer",
         "Role_Seller"
     ],
-    "sold_product_ID": ""
+    "sold_product_ID": []
 }
 ```
 
@@ -79,12 +87,14 @@ The APIs are deployed in heroku.
 
 ``` 
 {
-    "user_ID": "02c8e2f0-eafc-11eb-bffb-adf8fe07f4e0",
-    "password": "usertest12341asd",
-    "full_name": "Aleem Sheik 3",
+    "user_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0",
     "role": [
         "Role_Consumer",
         "Role_Seller"
+    ],
+    "sold_product_ID": [
+        "b16e9e40-eba5-11eb-b05c-97cfad7c58a9",
+        "c6f570b0-ec43-11eb-b6c2-eba4be0f94a7"
     ]
 }
 ```
