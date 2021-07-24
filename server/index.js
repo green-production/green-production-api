@@ -292,6 +292,63 @@ fastify.get('/get-all-products', async function (request, reply) {
   reply.code(200).send(product_details)  
 })
 
+// Get Product Info
+fastify.post('/get-product-info', async function (request, reply) {
+  
+  //Find all available docs
+  var docList = await utils.findAllDocs();
+
+  var product_ID = request.body.product_ID;
+  var product_details = {};
+
+  if(docList != null && docList.data != null && docList.data.total_rows > 0)
+  {
+    docList.data.rows.forEach(element => {
+
+      //Extract information from Products document
+      if(element.doc.type == 'Products')
+      {
+        element.doc.product_details.forEach(product => {
+
+          if(product.product_ID == product_ID) {
+            product_details = product;
+          }         
+        });        
+      }
+    });    
+  }
+
+  reply.code(200).send(product_details) 
+})
+
+// Get Seller Listings
+fastify.post('/get-seller-listings', async function (request, reply) {
+  
+  //Find all available docs
+  var docList = await utils.findAllDocs();
+
+  var seller_ID = request.body.seller_ID;
+  var product_details = [];
+
+  if(docList != null && docList.data != null && docList.data.total_rows > 0)
+  {
+    docList.data.rows.forEach(element => {
+
+      //Extract information from Products document
+      if(element.doc.type == 'Products')
+      {
+        element.doc.product_details.forEach(product => {
+
+          if(product.seller_ID == seller_ID) {
+            product_details.push(product);
+          }         
+        });        
+      }
+    });    
+  }
+
+  reply.code(200).send(product_details) 
+})
 
 
 
