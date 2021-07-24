@@ -168,17 +168,69 @@ fastify.post('/update-user', async function (request, reply) {
   reply.send(docInfo)
 })
 
+
 //Create a new Products document(Admin API - One time)
-fastify.post('/new-product-doc', async function (request, reply) {
+fastify.post('/new-products-doc', async function (request, reply) {
 
   //Create New Document
   var data = await utils.createProductsDocument(
-    'Products', request.body.productName, request.body.unitPrice, request.body.quantity,
-    request.body.productMaterial, request.body.recyclingCode, request.body.sellerID, request.body.sellerName,
-    request.body.productCategory, request.body.productSubCategory);
+    'Products', request.body.product_name, request.body.unit_price, request.body.quantity,
+    request.body.product_material, request.body.recycling_code, request.body.seller_ID, request.body.seller_name,
+    request.body.product_category, request.body.product_sub_category);
     
   reply.send(data)
 })
+
+//Create New Product
+fastify.post('/new-product', async function (request, reply) {
+
+  //Find all available docs
+  var docList = await utils.findAllDocs();
+
+  var id = '';
+  var rev = '';
+  var product_details = [];
+
+  if(docList != null && docList.data != null && docList.data.total_rows > 0)
+  {
+    docList.data.rows.forEach(element => {
+
+      //Extract information from Products document
+      if(element.doc.type == 'Products')
+      {
+        id = element.id;
+        rev = element.doc._rev;
+        product_details = element.doc.product_details;
+      }
+    });
+  }
+
+  //Create new product object
+  var newProductObj = {
+    'product_ID': uuidv1(),
+    'product_name' : request.body.product_name,
+    'unit_price' : request.body.unit_price,
+    'quantity' : request.body.quantity,
+    'product_material' : request.body.product_material,
+    'recycling_code' : request.body.recycling_code,
+    'seller_ID' : request.body.seller_ID,
+    'seller_name' : request.body.seller_name,
+    'product_category' : request.body.product_category,
+    'product_sub_category' : request.body.product_sub_category,
+    'isApproved' : false,
+    'created_dt': new Date(Date.now()).toISOString(),
+    'updated_dt': new Date(Date.now()).toISOString()
+  };
+
+  //Modifiy existing User_Details array from document
+  product_details.push(newProductObj);
+
+  //Insert updated user details array in Users document
+  var docInfo = await utils.insertProductInfo(id, rev, product_details);
+
+  reply.send(docInfo)
+})
+
 
 // Run the server!
 fastify.listen(3000, function (err, address) {

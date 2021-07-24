@@ -13,6 +13,9 @@
     "state": "WB",
     "zip": "700036",
     "country": "India",
-    "role": "Role_Seller",
+    "role": [
+        "Role_Consumer",
+        "Role_Seller"
+    ],
     "sold_product_ID": ""
 }

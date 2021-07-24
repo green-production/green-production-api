@@ -279,4 +279,25 @@ module.exports = {
         });
     },
 
+    //Insert new product-datails in Products document
+    insertProductInfo: function insertProductInfo(id, rev, newProductDetails) {
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => { 
+            let list = {
+                _id: id,
+                type: 'Products',
+                _rev: rev,
+                product_details: newProductDetails
+            };
+            mydb.insert(list, (err, response) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({ data: { updatedId: response.id, updatedRevId: response.rev }, statusCode: 200 });
+                }
+            });
+        });
+    },
+
 }
