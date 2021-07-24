@@ -158,7 +158,7 @@ fastify.post('/update-user', async function (request, reply) {
 
   user_details.forEach(user => {
     if(user.user_ID == userID) {
-      user = utils.mapUserUpdatetoModel(user, request.body);
+      user = utils.mapUserUpdateToModel(user, request.body);
     }         
   });
 
@@ -231,6 +231,43 @@ fastify.post('/new-product', async function (request, reply) {
   reply.send(docInfo)
 })
 
+//Update Existing Product
+fastify.post('/update-product', async function (request, reply) {
+
+  //Find all available docs
+  var docList = await utils.findAllDocs();
+
+  var id = '';
+  var rev = '';
+  var product_details = [];
+
+  var productID = request.body.product_ID;
+
+  if(docList != null && docList.data != null && docList.data.total_rows > 0)
+  {
+    docList.data.rows.forEach(element => {
+
+      //Extract information from Products document
+      if(element.doc.type == 'Products')
+      {
+        id = element.id;
+        rev = element.doc._rev;
+        product_details = element.doc.product_details;
+      }
+    });
+  }
+
+  product_details.forEach(product => {
+    if(product.product_ID == productID) {
+      product = utils.mapProductUpdateToModel(product, request.body);
+    }         
+  });
+
+  //Insert updated product details array in Products document
+  var docInfo = await utils.insertProductInfo(id, rev, product_details);
+
+  reply.send(docInfo)
+})
 
 // Run the server!
 fastify.listen(3000, function (err, address) {

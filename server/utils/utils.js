@@ -20,7 +20,7 @@ var cloudant = Cloudant({ url: url, username: username, password: password });
 
 module.exports = {
     //Function to map update-user req to model
-    mapUserUpdatetoModel: function mapUserUpdatetoModel(user, request) { 
+    mapUserUpdateToModel: function mapUserUpdateToModel(user, request) { 
 
         if(request.user_name){
             user.user_name = request.user_name;
@@ -87,6 +87,52 @@ module.exports = {
             user.updated_dt = new Date(Date.now()).toISOString();
         }
         return user;
+    },
+
+    //Function to map update-product req to model
+    mapProductUpdateToModel: function mapProductUpdateToModel(product, request) { 
+
+        if(request.product_name){
+            product.product_name = request.product_name;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.unit_price){
+            product.unit_price = request.unit_price;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.quantity){
+            product.quantity = request.quantity;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.product_material){
+            product.product_material = request.product_material;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.recycling_code){
+            product.recycling_code = request.recycling_code;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.seller_ID){
+            product.seller_ID = request.seller_ID;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.seller_name){
+            product.seller_name = request.seller_name;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.product_category){
+            product.product_category = request.product_category;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.product_sub_category){
+            product.product_sub_category = request.product_sub_category;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        if(request.isApproved){
+            product.isApproved = request.isApproved;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        return product;
     },
 
     //Create Cloudant DB function
