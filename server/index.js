@@ -26,7 +26,7 @@ fastify.post('/api/new-users-doc', async function (request, reply) {
   var data = await utils.createUsersDocument(
     'Users', request.body.user_name, request.body.password, request.body.email,
     request.body.full_name, request.body.dob, request.body.gender,
-    request.body.security_question_ID, request.body.secure_answer,
+    request.body.secure_login_recovery,
     request.body.street_address_1, request.body.street_address_2,
     request.body.city, request.body.state, request.body.zip, request.body.country,
     request.body.role, request.body.sold_product_ID);
@@ -107,8 +107,7 @@ fastify.post('/api/new-user', async function (request, reply) {
     'full_name' : request.body.full_name,
     'dob' : request.body.dob,
     'gender' : request.body.gender,
-    'security_question_ID' : request.body.security_question_ID,
-    'secure_answer' : request.body.secure_answer,
+    'secure_login_recovery' : request.body.secure_login_recovery,
     'street_address_1' : request.body.street_address_1,
     'street_address_2' : request.body.street_address_2,
     'city' : request.body.city,

@@ -46,12 +46,8 @@ module.exports = {
             user.gender = request.gender;
             user.updated_dt = new Date(Date.now()).toISOString();
         }
-        if(request.security_question_ID){
-            user.security_question_ID = request.security_question_ID;
-            user.updated_dt = new Date(Date.now()).toISOString();
-        }
-        if(request.secure_answer){
-            user.secure_answer = request.secure_answer;
+        if(request.secure_login_recovery){
+            user.secure_login_recovery = request.secure_login_recovery;
             user.updated_dt = new Date(Date.now()).toISOString();
         }
         if(request.street_address_1){
@@ -202,8 +198,7 @@ module.exports = {
         full_name,
         dob,
         gender,
-        security_question_ID,
-        sercure_answer,
+        secure_login_recovery,
         street_address_1,
         street_address_2,
         city,
@@ -229,8 +224,7 @@ module.exports = {
                     'full_name' : full_name,
                     'dob' : dob,
                     'gender' : gender,
-                    'security_question_ID' : security_question_ID,
-                    'secure_answer' : sercure_answer,
+                    'secure_login_recovery' : secure_login_recovery,
                     'street_address_1' : street_address_1,
                     'street_address_2' : street_address_2,
                     'city' : city,
