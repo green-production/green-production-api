@@ -231,7 +231,7 @@ fastify.post('/new-product', async function (request, reply) {
   reply.send(docInfo)
 })
 
-//Update Existing Product
+//Update Existing Product (Admin can use this to approve a product)
 fastify.post('/update-product', async function (request, reply) {
 
   //Find all available docs
