@@ -270,7 +270,7 @@ module.exports = {
         });
     },
 
-    //Create new Users document
+    //Create new Products document
     createProductsDocument: function createProductsDocument(
         docName,
         productName,
@@ -335,6 +335,40 @@ module.exports = {
                     reject(err);
                 } else {
                     resolve({ data: { updatedId: response.id, updatedRevId: response.rev }, statusCode: 200 });
+                }
+            });
+        });
+    },
+
+    //Create new Cart document
+    createCartDocument: function createCartDocument(
+        docName,
+        userID,
+        products
+        ) {
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => {
+            let listId = uuidv4();
+            let list = {
+                _id: listId,
+                type: docName,
+                cart_details: [
+                    {                    
+                    'user_ID': userID,
+                    'products': products,
+                    'created_dt': new Date(Date.now()).toISOString(),
+                    'updated_dt': new Date(Date.now()).toISOString()
+   
+                }],
+                
+            };
+            mydb.insert(list, (err, result) => {
+                if (err) {
+                    logger.error('Error occurred: ' + err.message, 'create()');
+                    reject(err);
+                } else {
+                    resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
                 }
             });
         });

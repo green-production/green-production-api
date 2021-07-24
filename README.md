@@ -180,3 +180,24 @@ The APIs are deployed in heroku.
 }
 ```
 
+#### 11. Create a new Cart document(Admin API - One time)
+  - API: https://greenytale.herokuapp.com/api/new-cart-doc
+  - Type: POST
+  - Request
+
+``` 
+{
+    "user_ID": "f0e76700-eafb-11eb-bffb-adf8fe07f4e0",
+    "products": [
+        {
+            "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9",
+            "quantity": "2"
+        },
+        {
+            "product_ID": "c6f570b0-ec43-11eb-b6c2-eba4be0f94a7",
+            "quantity": "4"
+        }
+    ]
+}
+```
+

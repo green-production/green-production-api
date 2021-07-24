@@ -350,6 +350,15 @@ fastify.post('/api/get-seller-listings', async function (request, reply) {
 })
 
 
+//Create a new Cart document(Admin API - One time)
+fastify.post('/api/new-cart-doc', async function (request, reply) {
+
+  //Create New Document
+  var data = await utils.createCartDocument(
+    'Cart', request.body.user_ID, request.body.products);
+    
+  reply.send(data)
+})
 
 // Run the server!
 fastify.listen(process.env.PORT || 3000, '0.0.0.0', function (err, address) {
