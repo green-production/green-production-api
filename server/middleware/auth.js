@@ -10,7 +10,7 @@ const auth = fp(async (fastify, otps, next) => {
             res.code(400).send(e)
         }
     })
-    next()
+    next() 
 })
 
 export default auth

@@ -249,7 +249,14 @@ const utils = {
                     logger.error('Error occurred: ' + err.message, 'create()');
                     reject(err);
                 } else {
-                    resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
+                    resolve({ 
+                        data: { 
+                            createdId: result.id,
+                            createdRevId: result.rev,
+                            user: list.user_details
+                        },
+                        statusCode: 201 
+                    });
                 }
             });
         });
