@@ -4,7 +4,7 @@ const role = {
         RoleID: { type: 'number' },
         Name: { type: 'string' },
         GroupName: { type: 'string' },
-        Precedence: { type: 'nuber' },
+        Precedence: { type: 'number' },
         CreatedTime: { type: 'string' },
         UpdatedTime: { type: 'string' },
         AppCustomer: { type: 'string' },
@@ -40,10 +40,7 @@ export const newUserSchema = {
                 country: { type: 'string' },
                 role: {
                     type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: role
-                    }
+                    items: role
                 },
                 sold_product_ID: {
                     type: 'array',

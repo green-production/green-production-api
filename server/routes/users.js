@@ -102,6 +102,48 @@ export default async function(fastify, options, next) {
       let UserObj = {
         'user_ID': uuid(),
         ...request.body,
+        'role': [
+          {
+            "RoleID": 1,
+            "Name": "CONSUMER",
+            "GroupName": "GreenProductionInternalTest",
+            "Precedence": "2",
+            "CreatedTime": "2021-07-22T14:48:10.566Z",
+            "UpdatedTime": "2021-07-22T14:48:10.566Z",
+            "AppCustomer": "GREENYTALE",
+            "ActiveStatus": true
+          },
+          {
+            "RoleID": 2,
+            "Name": "SELLER",
+            "GroupName": "GreenProductionInternalTest",
+            "Precedence": "3",
+            "CreatedTime": "2021-07-22T14:48:10.566Z",
+            "UpdatedTime": "2021-07-22T14:48:10.566Z",
+            "AppCustomer": "GREENYTALE",
+            "ActiveStatus": false
+          },
+          {
+            "RoleID": 3,
+            "Name": "EXTERNAL",
+            "GroupName": "GreenProductionInternalTest",
+            "Precedence": "4",
+            "CreatedTime": null,
+            "UpdatedTime": null,
+            "AppCustomer": "GREENYTALE",
+            "ActiveStatus": false
+          },
+          {
+            "RoleID": 4,
+            "Name": "ADMIN",
+            "GroupName": "GreenProductionInternalTest",
+            "Precedence": "1",
+            "CreatedTime": "2021-07-22T14:48:10.566Z",
+            "UpdatedTime": "2021-07-22T14:48:10.566Z",
+            "AppCustomer": "GREENYTALE",
+            "ActiveStatus": false
+          }
+        ],
         'created_dt': new Date().toISOString(),
         'updated_dt': new Date().toISOString()
       };
