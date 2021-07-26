@@ -75,9 +75,9 @@ fastify.post('/api/login', async function (request, reply) {
   
           element.doc.user_details.forEach(user => {
   
-            if(user.user_name == username && user.password == password) {
+            if(user.user_name == userName && user.password == password) {
               user_details = user;
-              user_details.token = fastify.jwt.sign({username, password}, {expiresIn: '1 day'})
+              user_details.token = fastify.jwt.sign({userName, password}, {expiresIn: '1 day'})
             }         
           });        
         }
