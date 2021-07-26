@@ -39,16 +39,16 @@ export const newUserSchema = {
                 zip: { type: 'string' },
                 country: { type: 'string' },
                 role: {
-                    type: 'object',
-                    properties: {
-                        security_question_ID: { type: 'number' },
-                        secure_answer: { type: 'string' }
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: role
                     }
                 },
                 sold_product_ID: {
                     type: 'array',
                     items: {
-                        type: 'integer'
+                        type: 'string'
                     }
                 },
                 token: { type: 'string' },
