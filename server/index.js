@@ -1,15 +1,32 @@
 // Require the framework and instantiate it
-const fastify = require('fastify')({
-  logger: true
-})
+import Fastify from 'fastify'
+const fastify = Fastify({logger: true})
+import swagger from 'fastify-swagger'
+import jwt from 'fastify-jwt'
+import auth from './middleware/auth.js'
 
 //Load UUID
-const { 
-  v1: uuidv1,
-  v4: uuidv4,
-} = require('uuid');
+import {v1 as uuid} from 'uuid';
+import utils from './utils/utils.js';
 
-const utils = require('./utils/utils');
+fastify.register(jwt, {
+  secret: process.env.JWT_SECRET_KEY
+})
+
+fastify.register(swagger, {
+  exposeRoute: true,
+  routePrefix: '/docs',
+  swagger: {
+    info: {
+      title: 'GreenyTale',
+      description: 'Testing GreenyTale API',
+      version: '1.0.0'
+    },
+    host: 'localhost'
+  }
+})
+
+fastify.register(auth)
 
 // Test API
 fastify.get('/api', async function (request, reply) {
@@ -35,98 +52,95 @@ fastify.post('/api/new-users-doc', async function (request, reply) {
 })
 
 // Get User-Info
-fastify.post('/api/get-user', async function (request, reply) {
+fastify.post('/api/login', async function (request, reply) {
+  try {
+    const {userName, password} = request.body
+
+    //Find all available docs
+    var docList = await utils.findAllDocs();
   
-  //Find all available docs
-  var docList = await utils.findAllDocs();
-  var username = request.body.userName;
-  var password = request.body.password
-
-  var id = '';
-  var rev = '';
-  var user_details = {};
-
-  if(docList != null && docList.data != null && docList.data.total_rows > 0)
-  {
-    docList.data.rows.forEach(element => {
-
-      //Extract information from Users document
-      if(element.doc.type == 'Users')
-      {
-        id = element.id;
-        rev = element.doc._rev;
-
-        element.doc.user_details.forEach(user => {
-
-          if(user.user_name == username && user.password == password) {
-            user_details = user;
-          }         
-        });        
-      }
-    });    
+    var id = '';
+    var rev = '';
+    var user_details = {};
+  
+    if(docList != null && docList.data != null && docList.data.total_rows > 0)
+    {
+      docList.data.rows.forEach(element => {
+  
+        //Extract information from Users document
+        if(element.doc.type == 'Users')
+        {
+          id = element.id;
+          rev = element.doc._rev;
+  
+          element.doc.user_details.forEach(user => {
+  
+            if(user.user_name == username && user.password == password) {
+              user_details = user;
+              user_details.token = fastify.jwt.sign({username, password}, {expiresIn: '1 day'})
+            }         
+          });        
+        }
+      });    
+    }
+  
+    if(user_details != null && user_details.user_name) {
+      reply.code(200).send(user_details)
+    } else {
+      throw new Error()
+    }  
+  } catch (err) {
+    reply.code(400).send(err)
   }
-
-  if(user_details != null && user_details.user_name) {
-    reply.code(200).send(user_details)
-  }
-  else {
-    reply.code(401).send(user_details)
-  }  
 })
 
 //Create New User
 fastify.post('/api/new-user', async function (request, reply) {
+  try {
+    const {user_name, password} = request.body
 
-  //Find all available docs
-  var docList = await utils.findAllDocs();
+    //Find all available docs
+    var docList = await utils.findAllDocs();
+  
+    var id = '';
+    var rev = '';
+    var user_details = [];
+  
+    if(docList != null && docList.data != null && docList.data.total_rows > 0)
+    {
+      docList.data.rows.forEach(element => {
+  
+        //Extract information from Users document
+        if(element.doc.type == 'Users')
+        {
+          id = element.id;
+          rev = element.doc._rev;
+          user_details = element.doc.user_details;
+        }
+      });
+    }
 
-  var id = '';
-  var rev = '';
-  var user_details = [];
-
-  if(docList != null && docList.data != null && docList.data.total_rows > 0)
-  {
-    docList.data.rows.forEach(element => {
-
-      //Extract information from Users document
-      if(element.doc.type == 'Users')
-      {
-        id = element.id;
-        rev = element.doc._rev;
-        user_details = element.doc.user_details;
-      }
-    });
+    const token = fastify.jwt.sign({user_name, password}, {expiresIn: '1 day'})
+  
+    //Create new user object
+    var UserObj = {
+      ...request.body,
+      token,
+      'created_dt': new Date().toISOString(),
+      'updated_dt': new Date().toISOString()
+    };
+  
+    //Modifiy existing User_Details array from document
+    user_details.push(UserObj);
+  
+    //Insert updated user details array in Users document
+    var docInfo = await utils.insertUserInfo(id, rev, user_details);
+  
+    reply.code(201).send(UserObj)
+  } catch (err) {
+    reply.code(400).send(err)
   }
 
-  //Create new user object
-  var UserObj = {
-    'user_ID': uuidv1(),
-    'user_name' : request.body.user_name,
-    'password' : request.body.password,
-    'email' : request.body.email,
-    'full_name' : request.body.full_name,
-    'dob' : request.body.dob,
-    'gender' : request.body.gender,
-    'secure_login_recovery' : request.body.secure_login_recovery,
-    'street_address_1' : request.body.street_address_1,
-    'street_address_2' : request.body.street_address_2,
-    'city' : request.body.city,
-    'state' : request.body.state,
-    'zip' : request.body.zip,
-    'country' : request.body.country,
-    'role' : request.body.role,
-    'sold_product_ID' : request.body.sold_product_ID,
-    'created_dt': new Date(Date.now()).toISOString(),
-    'updated_dt': new Date(Date.now()).toISOString()
-  };
-
-  //Modifiy existing User_Details array from document
-  user_details.push(UserObj);
-
-  //Insert updated user details array in Users document
-  var docInfo = await utils.insertUserInfo(id, rev, user_details);
-
-  reply.send(docInfo)
 })
 
 //Update Existing User
@@ -181,54 +195,61 @@ fastify.post('/api/new-products-doc', async function (request, reply) {
 })
 
 //Create New Product
-fastify.post('/api/new-product', async function (request, reply) {
+async function newProduct(fastify) {
+  // fastify.addHook('preValidation', ()=>[fastify.authentication])
+  fastify.post('/api/new-product', {
+    preValidation: [fastify.authentication]
+  }, async function (request, reply) {
+  
+    //Find all available docs
+    var docList = await utils.findAllDocs();
+  
+    var id = '';
+    var rev = '';
+    var product_details = [];
+  
+    if(docList != null && docList.data != null && docList.data.total_rows > 0)
+    {
+      docList.data.rows.forEach(element => {
+  
+        //Extract information from Products document
+        if(element.doc.type == 'Products')
+        {
+          id = element.id;
+          rev = element.doc._rev;
+          product_details = element.doc.product_details;
+        }
+      });
+    }
+  
+    //Create new product object
+    var newProductObj = {
+      'product_ID': uuid(),
+      'product_name' : request.body.product_name,
+      'unit_price' : request.body.unit_price,
+      'quantity' : request.body.quantity,
+      'product_material' : request.body.product_material,
+      'recycling_code' : request.body.recycling_code,
+      'seller_ID' : request.body.seller_ID,
+      'seller_name' : request.body.seller_name,
+      'product_category' : request.body.product_category,
+      'product_sub_category' : request.body.product_sub_category,
+      'isApproved' : false,
+      'created_dt': new Date().toISOString(),
+      'updated_dt': new Date().toISOString()
+    };
+  
+    //Modifiy existing User_Details array from document
+    product_details.push(newProductObj);
+  
+    //Insert updated user details array in Users document
+    var docInfo = await utils.insertProductInfo(id, rev, product_details);
+  
+    reply.send(docInfo)
+  })
+}
 
-  //Find all available docs
-  var docList = await utils.findAllDocs();
-
-  var id = '';
-  var rev = '';
-  var product_details = [];
-
-  if(docList != null && docList.data != null && docList.data.total_rows > 0)
-  {
-    docList.data.rows.forEach(element => {
-
-      //Extract information from Products document
-      if(element.doc.type == 'Products')
-      {
-        id = element.id;
-        rev = element.doc._rev;
-        product_details = element.doc.product_details;
-      }
-    });
-  }
-
-  //Create new product object
-  var newProductObj = {
-    'product_ID': uuidv1(),
-    'product_name' : request.body.product_name,
-    'unit_price' : request.body.unit_price,
-    'quantity' : request.body.quantity,
-    'product_material' : request.body.product_material,
-    'recycling_code' : request.body.recycling_code,
-    'seller_ID' : request.body.seller_ID,
-    'seller_name' : request.body.seller_name,
-    'product_category' : request.body.product_category,
-    'product_sub_category' : request.body.product_sub_category,
-    'isApproved' : false,
-    'created_dt': new Date(Date.now()).toISOString(),
-    'updated_dt': new Date(Date.now()).toISOString()
-  };
-
-  //Modifiy existing User_Details array from document
-  product_details.push(newProductObj);
-
-  //Insert updated user details array in Users document
-  var docInfo = await utils.insertProductInfo(id, rev, product_details);
-
-  reply.send(docInfo)
-})
+fastify.register(newProduct)
 
 //Update Existing Product (Admin can use this to approve a product)
 fastify.post('/api/update-product', async function (request, reply) {
@@ -361,7 +382,7 @@ fastify.post('/api/new-cart-doc', async function (request, reply) {
 })
 
 // Run the server!
-fastify.listen(process.env.PORT || 3000, '0.0.0.0', function (err, address) {
+fastify.listen(process.env.PORT, '0.0.0.0', function (err, address) {
   if (err) {
     fastify.log.error(err)
     process.exit(1)

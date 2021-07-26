@@ -1,14 +1,11 @@
 // Load the Cloudant library.
-var Cloudant = require('@cloudant/cloudant');
+import Cloudant from '@cloudant/cloudant';
 
 //Load UUID
-const { 
-    v1: uuidv1,
-    v4: uuidv4,
-  } = require('uuid');
+import {v1 as uuidv1, v4 as uuidv4} from 'uuid';
 
 // Load the Cloudant service config.
-const vcap = require('../config/vcap-local.json');
+import vcap from '../config/vcap-local.js';
 
 // Get account details from environment variables
 var url = vcap.services.cloudantNoSQLDB.credentials.url;
@@ -18,7 +15,7 @@ var password = vcap.services.cloudantNoSQLDB.credentials.password;
 // Initialize the library with url and credentials.
 var cloudant = Cloudant({ url: url, username: username, password: password });
 
-module.exports = {
+const utils = {
     //Function to map update-user req to model
     mapUserUpdateToModel: function mapUserUpdateToModel(user, request) { 
 
@@ -375,3 +372,5 @@ module.exports = {
     },
 
 }
+
+export default utils
