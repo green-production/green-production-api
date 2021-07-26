@@ -5,7 +5,7 @@ import Cloudant from '@cloudant/cloudant';
 import {v1 as uuidv1, v4 as uuidv4} from 'uuid';
 
 // Load the Cloudant service config.
-import vcap from '../config/vcap-local.js';
+import vcap from '../cloudant-config/vcap-local.js';
 
 // Get account details from environment variables
 var url = vcap.services.cloudantNoSQLDB.credentials.url;
