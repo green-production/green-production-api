@@ -72,7 +72,16 @@ const utils = {
             user.updated_dt = new Date(Date.now()).toISOString();
         }
         if(request.role){
-            user.role = request.role;
+            var role = [];
+            role = user.role;
+            role.forEach(item => {
+                if(item.RoleID == request.role)
+                {
+                    item.ActiveStatus = !item.ActiveStatus;
+                    item.UpdatedTime = new Date(Date.now()).toISOString();
+                }
+            });
+            user.role = role;
             user.updated_dt = new Date(Date.now()).toISOString();
         }
         if(request.sold_product_ID){
