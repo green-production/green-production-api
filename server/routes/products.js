@@ -86,7 +86,9 @@ export default async function(fastify, options, next) {
 
 
     //Update Existing Product (Admin can use this to approve a product)
-    fastify.post('/api/product/update-product', async (request, reply) => {
+    fastify.post('/api/product/update-product', {
+        preValidation: [fastify.authentication]
+        }, async (request, reply) => {
     
         //Find all available docs
         var docList = await utils.findAllDocs();
@@ -155,7 +157,9 @@ export default async function(fastify, options, next) {
 
     
     // Get Seller Listings
-    fastify.post('/api/product/seller-listings', async (request, reply) => {
+    fastify.post('/api/product/seller-listings', {
+        preValidation: [fastify.authentication]
+        }, async (request, reply) => {
         
         //Find all available docs
         var docList = await utils.findAllDocs();

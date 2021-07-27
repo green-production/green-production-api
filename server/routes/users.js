@@ -5,7 +5,7 @@ import {newUserSchema} from '../schema/users.js';
 export default async function(fastify, options, next) {
 
     //Create a new Users document(Admin API - One time)
-    fastify.post('/api/users/admin-signup', async (request, reply) => {
+    fastify.post('/api/users/new-user-doc', async (request, reply) => {
         const { user_name, password, email, full_name, dob, gender, secure_login_recovery, street_address_1, street_address_2, city, state, zip, country, role, sold_product_ID} = request.body
 
         //Create New Document
@@ -73,7 +73,7 @@ export default async function(fastify, options, next) {
   
     //Create New User
     fastify.post('/api/users/new-user', newUserSchema, async (request, reply) => {
-      const {user_name, password} = request.body
+      const {user_name, password, isAdmin} = request.body
   
       //Find all available docs
       let docList = await utils.findAllDocs();
@@ -141,7 +141,7 @@ export default async function(fastify, options, next) {
             "CreatedTime": "2021-07-22T14:48:10.566Z",
             "UpdatedTime": "2021-07-22T14:48:10.566Z",
             "AppCustomer": "GREENYTALE",
-            "ActiveStatus": false
+            "ActiveStatus": isAdmin ? true : false
           }
         ],
         'created_dt': new Date().toISOString(),
@@ -178,9 +178,9 @@ export default async function(fastify, options, next) {
                 //Extract information from Users document
                 if(element.doc.type == 'Users')
                 {
-                id = element.id;
-                rev = element.doc._rev;
-                user_details = element.doc.user_details;
+                  id = element.id;
+                  rev = element.doc._rev;
+                  user_details = element.doc.user_details;
                 }
             });
         }
