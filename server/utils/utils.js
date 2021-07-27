@@ -71,11 +71,11 @@ const utils = {
             user.country = request.country;
             user.updated_dt = new Date(Date.now()).toISOString();
         }
-        if(request.role){
+        if(request.RoleID){
             var role = [];
             role = user.role;
             role.forEach(item => {
-                if(item.RoleID == request.role)
+                if(item.RoleID == request.RoleID)
                 {
                     item.ActiveStatus = !item.ActiveStatus;
                     item.UpdatedTime = new Date(Date.now()).toISOString();

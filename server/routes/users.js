@@ -108,8 +108,8 @@ export default async function(fastify, options, next) {
             "Name": "CONSUMER",
             "GroupName": "GreenProductionInternalTest",
             "Precedence": "2",
-            "CreatedTime": "2021-07-22T14:48:10.566Z",
-            "UpdatedTime": "2021-07-22T14:48:10.566Z",
+            "CreatedTime": new Date(Date.now()).toISOString(),
+            "UpdatedTime": new Date(Date.now()).toISOString(),
             "AppCustomer": "GREENYTALE",
             "ActiveStatus": true
           },
@@ -118,8 +118,8 @@ export default async function(fastify, options, next) {
             "Name": "SELLER",
             "GroupName": "GreenProductionInternalTest",
             "Precedence": "3",
-            "CreatedTime": "2021-07-22T14:48:10.566Z",
-            "UpdatedTime": "2021-07-22T14:48:10.566Z",
+            "CreatedTime": new Date(Date.now()).toISOString(),
+            "UpdatedTime": new Date(Date.now()).toISOString(),
             "AppCustomer": "GREENYTALE",
             "ActiveStatus": false
           },
@@ -128,8 +128,8 @@ export default async function(fastify, options, next) {
             "Name": "EXTERNAL",
             "GroupName": "GreenProductionInternalTest",
             "Precedence": "4",
-            "CreatedTime": null,
-            "UpdatedTime": null,
+            "CreatedTime": new Date(Date.now()).toISOString(),
+            "UpdatedTime": new Date(Date.now()).toISOString(),
             "AppCustomer": "GREENYTALE",
             "ActiveStatus": false
           },
@@ -138,8 +138,8 @@ export default async function(fastify, options, next) {
             "Name": "ADMIN",
             "GroupName": "GreenProductionInternalTest",
             "Precedence": "1",
-            "CreatedTime": "2021-07-22T14:48:10.566Z",
-            "UpdatedTime": "2021-07-22T14:48:10.566Z",
+            "CreatedTime": new Date(Date.now()).toISOString(),
+            "UpdatedTime": new Date(Date.now()).toISOString(),
             "AppCustomer": "GREENYTALE",
             "ActiveStatus": isAdmin ? true : false
           }
