@@ -22,7 +22,7 @@ fastify.register(swagger, {
   }
 })
 
-//fastify.register(import('fastify-cors'))
+fastify.register(import('fastify-cors'))
 
 fastify.register(auth)
 fastify.register(import("./routes/users.js"))
