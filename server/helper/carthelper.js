@@ -1,5 +1,3 @@
-import utils from '../utils/utils.js';
-
 const carthelper = {
 
     getAllCarts: function getAllCarts(docList) {
@@ -21,8 +19,8 @@ const carthelper = {
             });
         }
         return {
-            id: id,
-            rev: rev,
+            cartID: id,
+            cartRev: rev,
             cartdetails: cart_details
         };
     }

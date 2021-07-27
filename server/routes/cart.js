@@ -1,4 +1,4 @@
-import carthelper from '../helper/cartHelper.js';
+import carthelper from '../helper/carthelper.js';
 import utils from '../utils/utils.js';
 
 export default async function(fastify, options, next) {
@@ -23,7 +23,7 @@ export default async function(fastify, options, next) {
         let docList = await utils.findAllDocs();
         let cart_details = []; 
 
-        const {id, rev, cartdetails} = carthelper.getAllCarts(docList);
+        const {cartID, cartRev, cartdetails} = carthelper.getAllCarts(docList);
 
         cart_details = cartdetails;
       
@@ -39,7 +39,7 @@ export default async function(fastify, options, next) {
         cart_details.push(cartObj);
       
         //Insert updated cart details array in Cart document
-        let docInfo = await utils.insertCartItem(id, rev, cart_details);
+        let docInfo = await utils.insertCartItem(cartID, cartRev, cart_details);
       
         reply.code(201).send(docInfo)
     
@@ -56,7 +56,7 @@ export default async function(fastify, options, next) {
         let docList = await utils.findAllDocs();
         let cart_details = [];  
 
-        const {id, rev, cartdetails} = carthelper.getAllCarts(docList);
+        const {cartID, cartRev, cartdetails} = carthelper.getAllCarts(docList);
 
         cart_details = cartdetails;
     
@@ -67,7 +67,7 @@ export default async function(fastify, options, next) {
         });
     
         //Insert updated user details array in Users document
-        let docInfo = await utils.insertCartItem(id, rev, cart_details);
+        let docInfo = await utils.insertCartItem(cartID, cartRev, cart_details);
     
         reply.send(docInfo)
     })
@@ -83,14 +83,12 @@ export default async function(fastify, options, next) {
       let docList = await utils.findAllDocs();
       let cart_details = []; 
 
-      const {id, rev, cartdetails} = carthelper.getAllCarts(docList);
-
-      cart_details = cartdetails;
+      const {cartID, cartRev, cartdetails} = carthelper.getAllCarts(docList);
   
-      cart_details = utils.removeCartByUserID(cart_details, 'user_ID', user_ID);
+      cart_details = utils.removeCartByUserID(cartdetails, 'user_ID', user_ID);
   
       //Insert updated user details array in Users document
-      let docInfo = await utils.insertCartItem(id, rev, cart_details);
+      let docInfo = await utils.insertCartItem(cartID, cartRev, cart_details);
   
       reply.send(docInfo)
     })
