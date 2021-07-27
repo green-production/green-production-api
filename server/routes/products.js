@@ -1,5 +1,6 @@
 import {v1 as uuid} from 'uuid';
 import utils from '../utils/utils.js';
+import producthelper from '../helper/producthelper.js';
 
 export default async function(fastify, options, next) {
 
@@ -14,7 +15,6 @@ export default async function(fastify, options, next) {
         
         reply.send(data)
     })
-
     
     //Create New Product
     fastify.post('/api/products/new-product', {
@@ -23,43 +23,18 @@ export default async function(fastify, options, next) {
         
         //Find all available docs
         var docList = await utils.findAllDocs();
-        
-        var id = '';
-        var rev = '';
         var product_details = [];
         
-        if(docList != null && docList.data != null && docList.data.total_rows > 0)
-        {
-            docList.data.rows.forEach(element => {
+        //Get all product details
+        const {productID, productRev, productDetails} = producthelper.getAllProducts(docList);
         
-            //Extract information from Products document
-            if(element.doc.type == 'Products')
-            {
-                id = element.id;
-                rev = element.doc._rev;
-                product_details = element.doc.product_details;
-            }
-            });
-        }
+        product_details = producthelper.newProductObj(productDetails, request);
         
-        //Create new product object
-        var newProductObj = {
-            'product_ID': uuid(),
-            ...request.body,
-            'isApproved' : false,
-            'created_dt': new Date().toISOString(),
-            'updated_dt': new Date().toISOString()
-        };
-        
-        //Modifiy existing User_Details array from document
-        product_details.push(newProductObj);
-        
-        //Insert updated user details array in Users document
-        var docInfo = await utils.insertProductInfo(id, rev, product_details);
+        //Insert updated product details array in products document
+        var docInfo = await utils.insertProductInfo(productID, productRev, product_details);
         
         reply.code(201).send(docInfo)
     })
-
     
     // Get All Products
     fastify.get('/api/products', async (request, reply) => {
@@ -67,23 +42,11 @@ export default async function(fastify, options, next) {
         //Find all available docs
         var docList = await utils.findAllDocs();
         
-        var product_details = [];
+        //Get all product details
+        const {productID, productRev, productDetails} = producthelper.getAllProducts(docList);
     
-        if(docList != null && docList.data != null && docList.data.total_rows > 0)
-        {
-            docList.data.rows.forEach(element => {
-        
-                //Extract information from Products document
-                if(element.doc.type == 'Products')
-                {
-                product_details = element.doc.product_details;        
-                }
-            });    
-        }
-    
-        reply.code(200).send(product_details)  
+        reply.code(200).send(productDetails)  
     })
-
 
     //Update Existing Product (Admin can use this to approve a product)
     fastify.post('/api/product/update-product', {
@@ -93,39 +56,27 @@ export default async function(fastify, options, next) {
         //Find all available docs
         var docList = await utils.findAllDocs();
     
-        var id = '';
-        var rev = '';
-        var product_details = [];
+        let prod_ID = request.body.product_ID;
     
-        var productID = request.body.product_ID;
-    
-        if(docList != null && docList.data != null && docList.data.total_rows > 0)
-        {
-            docList.data.rows.forEach(element => {
+        let product_details = [];
         
-                //Extract information from Products document
-                if(element.doc.type == 'Products')
-                {
-                id = element.id;
-                rev = element.doc._rev;
-                product_details = element.doc.product_details;
-                }
-            });
-        }
+        //Get all product details
+        const {productID, productRev, productDetails} = producthelper.getAllProducts(docList);
+
+        product_details = productDetails;
     
         product_details.forEach(product => {
-            if(product.product_ID == productID) {
+            if(product.product_ID == prod_ID) {
                 product = utils.mapProductUpdateToModel(product, request.body);
             }         
         });
     
         //Insert updated product details array in Products document
-        var docInfo = await utils.insertProductInfo(id, rev, product_details);
+        var docInfo = await utils.insertProductInfo(productID, productRev, product_details);
     
         reply.send(docInfo)
     })
     
-
     // Get Product Info
     fastify.post('/api/product/product-info', async (request, reply) => {
         
@@ -142,19 +93,18 @@ export default async function(fastify, options, next) {
                 //Extract information from Products document
                 if(element.doc.type == 'Products')
                 {
-                element.doc.product_details.forEach(product => {
-        
-                    if(product.product_ID == product_ID) {
-                    product_details = product;
-                    }         
-                });        
+                    element.doc.product_details.forEach(product => {
+            
+                        if(product.product_ID == product_ID) {
+                        product_details = product;
+                        }         
+                    });        
                 }
             });    
         }
     
         reply.code(200).send(product_details) 
     })
-
     
     // Get Seller Listings
     fastify.post('/api/product/seller-listings', {
