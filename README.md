@@ -236,7 +236,7 @@ The APIs are deployed in heroku.
   - Type: POST
   - Auth: Required
   - Formant: Authorization : Bearer <<Token>>
-  #### - Note: The latest product array with product add/delete/update to be done in Client and latest array sent in request
+  - Note: The latest product array with product add/delete/update to be done in Client and latest array sent in request
   - Request
 
 ```JSON 
