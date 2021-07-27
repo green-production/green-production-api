@@ -160,7 +160,9 @@ export default async function(fastify, options, next) {
 
   
     //Update Existing User - their user profile
-    fastify.post('/api/users/update-profile', async (request, reply) => {
+    fastify.post('/api/users/update-profile', {
+      preValidation: [fastify.authentication]
+      }, async (request, reply) => {
   
         //Find all available docs
         let docList = await utils.findAllDocs();

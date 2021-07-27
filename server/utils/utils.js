@@ -137,6 +137,16 @@ const utils = {
         return product;
     },
 
+    //Function to map update-cart req to model
+    mapCartUpdateToModel: function mapCartUpdateToModel(cart, request) { 
+
+        if(request.products){
+            cart.products = request.products;
+            cart.updated_dt = new Date(Date.now()).toISOString();
+        }
+        return cart;
+    },
+
     //Create Cloudant DB function
     createCloudantDB: function createCloudantDB() {  
         var uniqueUserID = Math.random().toString(26).slice(2);
@@ -382,6 +392,27 @@ const utils = {
                     reject(err);
                 } else {
                     resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
+                }
+            });
+        });
+    },
+
+    //Insert new user-product details in Cart document
+    insertCartItem: function insertCartItem(id, rev, newCartDetails) {
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => { 
+            let list = {
+                _id: id,
+                type: 'Cart',
+                _rev: rev,
+                cart_details: newCartDetails
+            };
+            mydb.insert(list, (err, response) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({ data: { updatedId: response.id, updatedRevId: response.rev }, statusCode: 200 });
                 }
             });
         });
