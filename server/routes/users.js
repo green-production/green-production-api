@@ -72,7 +72,7 @@ export default async function(fastify, options, next) {
     
   
     //Create New User
-    fastify.post('/api/users/new-user', newUserSchema, async (request, reply) => {
+    fastify.post('/api/users/sign-up', newUserSchema, async (request, reply) => {
       const {user_name, password, isAdmin} = request.body
   
       //Find all available docs
