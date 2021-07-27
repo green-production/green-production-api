@@ -97,5 +97,41 @@ export default async function(fastify, options, next) {
         reply.send(docInfo)
     })
 
+    //Update Existing User products in cart
+    fastify.post('/api/cart/delete-cart', {
+      preValidation: [fastify.authentication]
+      }, async (request, reply) => {
+          
+      const {user_ID} = request.body
+  
+      //Find all available docs
+      let docList = await utils.findAllDocs();
+  
+      let id = '';
+      let rev = '';
+      let cart_details = [];        
+  
+      if(docList != null && docList.data != null && docList.data.total_rows > 0)
+      {
+          docList.data.rows.forEach(element => {
+      
+              //Extract information from Cart document
+              if(element.doc.type == 'Cart')
+              {
+              id = element.id;
+              rev = element.doc._rev;
+              cart_details = element.doc.cart_details;
+              }
+          });
+      }
+  
+      cart_details = utils.removeCartByUserID(cart_details, 'user_ID', user_ID);
+  
+      //Insert updated user details array in Users document
+      let docInfo = await utils.insertCartItem(id, rev, cart_details);
+  
+      reply.send(docInfo)
+    })
+
     next()
 }
