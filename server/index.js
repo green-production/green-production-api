@@ -26,6 +26,7 @@ fastify.register(auth)
 fastify.register(import("./routes/users.js"))
 fastify.register(import("./routes/products.js"))
 fastify.register(import("./routes/cart.js"))
+fastify.register(import("./routes/orders.js"))
 
 
 // Run the server!

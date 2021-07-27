@@ -434,6 +434,53 @@ const utils = {
         });
     },
 
+    //Create new orders document
+    createOrdersDocument: function createOrdersDocument(
+        docName,
+        userID,
+        products
+        ) {
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => {
+            let listId = uuidv4();
+            let list = {
+                _id: listId,
+                type: docName,
+                transaction_details: []              
+            };
+            mydb.insert(list, (err, result) => {
+                if (err) {
+                    logger.error('Error occurred: ' + err.message, 'create()');
+                    reject(err);
+                } else {
+                    resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
+                }
+            });
+        });
+    },
+
+    //Insert new order in Orders document
+    inserOrder: function inserOrder(id, rev, newTransactionDetails) {
+        var mydb = cloudant.db.use('green-production');
+
+        return new Promise((resolve, reject) => { 
+            let list = {
+                _id: id,
+                type: 'Orders',
+                _rev: rev,
+                transaction_details: newTransactionDetails
+            };
+            mydb.insert(list, (err, response) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({ data: { updatedId: response.id, updatedRevId: response.rev }, statusCode: 200 });
+                }
+            });
+        });
+    },
+
 }
 
 export default utils
