@@ -1,3 +1,4 @@
+import carthelper from '../helper/cartHelper.js';
 import utils from '../utils/utils.js';
 
 export default async function(fastify, options, next) {
@@ -20,24 +21,11 @@ export default async function(fastify, options, next) {
     
         //Find all available docs
         let docList = await utils.findAllDocs();
-      
-        let id = '';
-        let rev = '';
-        let cart_details = [];
-      
-        if(docList != null && docList.data != null && docList.data.total_rows > 0)
-        {
-          docList.data.rows.forEach(element => {
-      
-            //Extract information from Cart document
-            if(element.doc.type == 'Cart')
-            {
-              id = element.id;
-              rev = element.doc._rev;
-              cart_details = element.doc.cart_details;
-            }
-          });
-        }
+        let cart_details = []; 
+
+        const {id, rev, cartdetails} = carthelper.getAllCarts(docList);
+
+        cart_details = cartdetails;
       
         //Create new Cart object for new user
         let cartObj = {
@@ -66,24 +54,11 @@ export default async function(fastify, options, next) {
     
         //Find all available docs
         let docList = await utils.findAllDocs();
-    
-        let id = '';
-        let rev = '';
-        let cart_details = [];        
-    
-        if(docList != null && docList.data != null && docList.data.total_rows > 0)
-        {
-            docList.data.rows.forEach(element => {
-        
-                //Extract information from Cart document
-                if(element.doc.type == 'Cart')
-                {
-                id = element.id;
-                rev = element.doc._rev;
-                cart_details = element.doc.cart_details;
-                }
-            });
-        }
+        let cart_details = [];  
+
+        const {id, rev, cartdetails} = carthelper.getAllCarts(docList);
+
+        cart_details = cartdetails;
     
         cart_details.forEach(cart => {
             if(cart.user_ID == user_ID) {
@@ -106,24 +81,11 @@ export default async function(fastify, options, next) {
   
       //Find all available docs
       let docList = await utils.findAllDocs();
-  
-      let id = '';
-      let rev = '';
-      let cart_details = [];        
-  
-      if(docList != null && docList.data != null && docList.data.total_rows > 0)
-      {
-          docList.data.rows.forEach(element => {
-      
-              //Extract information from Cart document
-              if(element.doc.type == 'Cart')
-              {
-              id = element.id;
-              rev = element.doc._rev;
-              cart_details = element.doc.cart_details;
-              }
-          });
-      }
+      let cart_details = []; 
+
+      const {id, rev, cartdetails} = carthelper.getAllCarts(docList);
+
+      cart_details = cartdetails;
   
       cart_details = utils.removeCartByUserID(cart_details, 'user_ID', user_ID);
   
