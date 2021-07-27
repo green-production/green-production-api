@@ -5,12 +5,13 @@ The APIs are deployed in heroku.
 ### API List
 
 #### 1. Create a new Users document(Admin API - One time)
-  - API: https://greenytale.herokuapp.com/api/new-users-doc
+  - API: https://greenytale.herokuapp.com/api/users/new-user-doc
   - Type: POST
+  - Auth: Not required
   - Request
 
   ```JSON 
-{
+  {
     "user_name": "soham.chattopadhyay",
     "password": "test123",
     "email": "soham.chattopadhyay93@gmail.com",
@@ -32,77 +33,73 @@ The APIs are deployed in heroku.
     "role": [
         "Role_Consumer"
     ],
-    "sold_product_ID": []
-}
-```
+    "sold_product_ID": [],
+    "isAdmin": true
+  }
+  ```
 
-#### 2. Get User-Info
-  - API: https://greenytale.herokuapp.com/api/get-user
+#### 2. Login API
+  - API: https://greenytale.herokuapp.com/api/users/login
   - Type: POST
+  - Auth: Not required
   - Request
 
-```JSON 
-{
-    "userName": "aleem.sheik",
-    "password": "usertest12341asd"
-}
-```
+  ```JSON 
+  {
+      "userName": "nitish.kumar",
+      "password": "asd132edfa"
+  }
+  ```
 
-#### 3. Create New User
+#### 3. Sign-Up API
   - API: https://greenytale.herokuapp.com/api/new-user
   - Type: POST
+  - Auth: Not required
   - Request
 
 ```JSON 
 {
-    "user_name": "swadhin.m",
-    "password": "r1421o8y4",
-    "email": "swadhin.mukherjee@gmai.com",
-    "full_name": "Swadhin Mukherjee",
-    "dob": "01/02/1913",
+    "user_name": "nitish.kumar",
+    "password": "asd132edfa",
+    "email": "nitish.kumar@gmail.com",
+    "full_name": "Nitish Kumar",
+    "dob": "01/02/1911",
     "gender": "M",
     "secure_login_recovery": [
         {
             "security_question_ID": "1",
-            "secure_answer": "Kolkata"
+            "secure_answer": "Patna"
         }
     ],
-    "street_address_1": "GHE Street",
-    "street_address_2": "Street T",
-    "city": "Kolkata",
-    "state": "WB",
-    "zip": "700036",
+    "street_address_1": "ADAX Street",
+    "street_address_2": "GSdf",
+    "city": "Patna",
+    "state": "BH",
+    "zip": "144123",
     "country": "India",
-    "role": [
-        "Role_Consumer",
-        "Role_Seller"
-    ],
-    "sold_product_ID": []
+    "sold_product_ID": [],
+    "isAdmin": true
 }
 ```
 
 #### 4. Update Existing User
   - API: https://greenytale.herokuapp.com/api/update-user
   - Type: POST
+  - Auth: Required
+  - Formant: Authorization : Bearer <<Token>>
   - Request
 
 ```JSON 
 {
-    "user_ID": "0bb9b470-eafc-11eb-bffb-adf8fe07f4e0",
-    "role": [
-        "Role_Consumer",
-        "Role_Seller"
-    ],
-    "sold_product_ID": [
-        "b16e9e40-eba5-11eb-b05c-97cfad7c58a9",
-        "c6f570b0-ec43-11eb-b6c2-eba4be0f94a7"
-    ]
+    "user_ID": "7dcd3d40-eea1-11eb-b87c-119e6b87510a",
+    "RoleID" : 2
 }
 ```
 
 #### 5. Create a new Products document(Admin API - One time)
-  - API: https://greenytale.herokuapp.com/api/new-products-doc
+  - API: https://greenytale.herokuapp.com/api/products/new-products-doc
   - Type: POST
+  - Auth: Not required
   - Request
 
 ```JSON 
@@ -120,8 +117,10 @@ The APIs are deployed in heroku.
 ```
 
 #### 6. Create New Product
-  - API: https://greenytale.herokuapp.com/api/new-product
+  - API: https://greenytale.herokuapp.com/api/products/new-product
   - Type: POST
+  - Auth: Required
+  - Formant: Authorization : Bearer <<Token>>
   - Request
 
 ```JSON 
@@ -141,18 +140,21 @@ The APIs are deployed in heroku.
 #### 7. Update Existing Product (Admin can use this to approve a product)
   - API: https://greenytale.herokuapp.com/api/update-product
   - Type: POST
+  - Auth: Required
+  - Formant: Authorization : Bearer <<Token>>
   - Request
 
 ```JSON 
 {
-    "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9",
+    "product_ID": "15cc8980-eea6-11eb-ab1f-89c796c5f7c3",
     "isApproved": true
 }
 ```
 
-#### 8. Get A ll Products
-  - API: https://greenytale.herokuapp.com/api/get-all-products
+#### 8. Get All Products
+  - API: https://greenytale.herokuapp.com/api/products
   - Type: GET
+  - Auth: Not required
   - Request
 
 ``` 
@@ -160,8 +162,9 @@ The APIs are deployed in heroku.
 ```
 
 #### 9. Get Product Info
-  - API: https://greenytale.herokuapp.com/api/get-product-info
+  - API: https://greenytale.herokuapp.com/api/product/product-info
   - Type: POST
+  - Auth: Not required
   - Request
 
 ```JSON 
@@ -171,8 +174,10 @@ The APIs are deployed in heroku.
 ```
 
 #### 10. Get Seller Listings
-  - API: https://greenytale.herokuapp.com/api/get-seller-listings
+  - API: https://greenytale.herokuapp.com/api/product/seller-listings
   - Type: POST
+  - Auth: Required
+  - Formant: Authorization : Bearer <<Token>>
   - Request
 
 ```JSON 
@@ -182,8 +187,9 @@ The APIs are deployed in heroku.
 ```
 
 #### 11. Create a new Cart document(Admin API - One time)
-  - API: https://greenytale.herokuapp.com/api/new-cart-doc
+  - API: https://greenytale.herokuapp.com/api/cart/new-cart-doc
   - Type: POST
+  - Auth: Not required
   - Request
 
 ```JSON 
@@ -199,6 +205,62 @@ The APIs are deployed in heroku.
             "quantity": "4"
         }
     ]
+}
+```
+
+#### 12. Create a new Cart for user
+  - API: https://greenytale.herokuapp.com/api/cart/new-cart
+  - Type: POST
+  - Auth: Required
+  - Formant: Authorization : Bearer <<Token>>
+  - Request
+
+```JSON 
+{
+    "user_ID": "fb1106a0-eafb-11eb-bffb-adf8fe07f4e0",
+    "products": [
+        {
+            "product_ID": "b16e9e40-eba5-11eb-b05c-97cfad7c58a9",
+            "quantity": "1"
+        },
+        {
+            "product_ID": "c6f570b0-ec43-11eb-b6c2-eba4be0f94a7",
+            "quantity": "3"
+        }
+    ]
+}
+```
+
+#### 13. Update cart of existing user (includes deletion of product from cart)
+  - API: https://greenytale.herokuapp.com/api/cart/update-cart
+  - Type: POST
+  - Auth: Required
+  - Formant: Authorization : Bearer <<Token>>
+  #### - Note: The latest product array with product add/delete/update to be done in Client and latest array sent in request
+  - Request
+
+```JSON 
+{
+    "user_ID": "f0e76700-eafb-11eb-bffb-adf8fe07f4e0",
+    "products": [
+        {
+            "product_ID": "c6f570b0-ec43-11eb-b6c2-eba4be0f94a7",
+            "quantity": "3"
+        }
+    ]
+}
+```
+
+#### 14. Delete user's cart
+  - API: https://greenytale.herokuapp.com/api/cart/delete-cart
+  - Type: POST
+  - Auth: Required
+  - Formant: Authorization : Bearer <<Token>>
+  - Request
+
+```JSON 
+{
+    "user_ID": "fb1106a0-eafb-11eb-bffb-adf8fe07f4e0"
 }
 ```
 
