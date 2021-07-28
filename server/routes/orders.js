@@ -32,16 +32,9 @@ export default async function(fastify, options, next) {
         //Step 1: Insert order in Orders document
         //let orderDocInfo = await utils.inserOrder(orderID, orderRev, transaction_details);
 
-        //Step 2: Delete entry from Cart
+        //Step 2: Update Product count
 
-        let cart_details = []; 
-
-        const {cartID, cartRev, cartdetails} = carthelper.getAllCarts(docList);
-
-        cart_details = utils.removeCartByUserID(cartdetails, 'user_ID', user_ID);
-
-        //Insert updated user details array in Users document
-        //let cartDocInfo = await utils.insertCartItem(cartID, cartRev, cart_details);
+        
 
         //Send reply
         reply.code(201).send(orderDocInfo)

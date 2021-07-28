@@ -92,7 +92,7 @@ const utils = {
     },
 
     //Function to map update-product req to model
-    mapProductUpdateToModel: function mapProductUpdateToModel(product, request) { 
+    mapProductUpdateToModel: function mapProductUpdateToModel(product, request) {
 
         if(request.product_name){
             product.product_name = request.product_name;
@@ -131,6 +131,11 @@ const utils = {
             product.updated_dt = new Date(Date.now()).toISOString();
         }
         if(request.isApproved){
+            product.isApproved = request.isApproved;
+            product.updated_dt = new Date(Date.now()).toISOString();
+        }
+        else if(request.isApproved === false)
+        {
             product.isApproved = request.isApproved;
             product.updated_dt = new Date(Date.now()).toISOString();
         }
