@@ -2,6 +2,7 @@ import { v1 as uuid } from "uuid";
 import utils from "../utils/utils.js";
 import { newUserSchema } from "../schema/users.js";
 import GoogleAuth from "../middleware/google-auth.js";
+import userhelper from "../helper/userhelper.js";
 
 export default async function (fastify, options, next) {
     //Create a new Users document(Admin API - One time)
@@ -46,59 +47,27 @@ export default async function (fastify, options, next) {
         reply.code(201).send(data);
     });
 
-    // Get User-Info
+    // User Login
     fastify.post("/api/users/login", async (request, reply) => {
         try {
-            const { userName, password } = request.body;
+            
+            let user_details = await userhelper.userLoginHelper(request, fastify);
 
-            //Find all available docs
-            let docList = await utils.findAllDocs();
-
-            let id = "";
-            let rev = "";
-            let user_details = {};
-
-            if (
-                docList != null &&
-                docList.data != null &&
-                docList.data.total_rows > 0
-            ) {
-                const docFound = docList.data.rows.find(
-                    (element) => element.doc.type === "Users"
-                );
-                if (docFound) {
-                    id = docFound.id;
-                    rev = docFound.doc._rev;
-
-                    if ((userName && password) || (userName && !password)) {
-                        const userFound = docFound.doc.user_details.find(
-                            (user) =>
-                                !password
-                                    ? user.email === userName
-                                    : user.user_name === userName &&
-                                      user.password === password
-                        );
-                        if (userFound) {
-                            user_details = userFound;
-                            user_details.token = fastify.jwt.sign(
-                                { userName, password: userFound.password },
-                                { expiresIn: "1 day" }
-                            );
-                        } else {
-                            throw new Error();
-                        }
-                        if (!password) {
-                            const { googletoken: token } = request.headers;
-                            const verified = await GoogleAuth(token);
-                            if (!verified) {
-                                throw new Error();
-                            }
-                        }
-                    } else {
-                        throw new Error();
-                    }
-                }
+            if (user_details != null && user_details.user_name) {
+                reply.code(200).send(user_details);
+            } else {
+                throw new Error();
             }
+        } catch (error) {
+            reply.code(400).send(error);
+        }
+    });
+
+    // Get User details by username
+    fastify.post("/api/users/get-user", async (request, reply) => {
+        try {
+            
+            let user_details = await userhelper.getUserHelper(request);
 
             if (user_details != null && user_details.user_name) {
                 reply.code(200).send(user_details);
@@ -183,38 +152,8 @@ export default async function (fastify, options, next) {
             preValidation: [fastify.authentication],
         },
         async (request, reply) => {
-            //Find all available docs
-            let docList = await utils.findAllDocs();
-
-            let id = "";
-            let rev = "";
-            let user_details = [];
-
-            let userID = request.body.user_ID;
-
-            if (
-                docList != null &&
-                docList.data != null &&
-                docList.data.total_rows > 0
-            ) {
-                docList.data.rows.forEach((element) => {
-                    //Extract information from Users document
-                    if (element.doc.type == "Users") {
-                        id = element.id;
-                        rev = element.doc._rev;
-                        user_details = element.doc.user_details;
-                    }
-                });
-            }
-
-            user_details.forEach((user) => {
-                if (user.user_ID == userID) {
-                    user = utils.mapUserUpdateToModel(user, request.body);
-                }
-            });
-
-            //Insert updated user details array in Users document
-            let docInfo = await utils.insertUserInfo(id, rev, user_details);
+            
+            var docInfo = await userhelper.updateUserHelper(request);
 
             reply.send(docInfo);
         }
