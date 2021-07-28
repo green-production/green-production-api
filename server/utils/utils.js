@@ -189,10 +189,8 @@ const utils = {
             mydb.list({include_docs:true}, function (err, document) {
                 if (err) {
                     if (err.message == 'missing') {
-                        logger.warn(`Document id ${id} does not exist.`, 'findById()');
                         resolve({ data: {}, statusCode: 404 });
                     } else {
-                        logger.error('Error occurred: ' + err.message, 'findById()');
                         reject(err);
                     }
                 } else {
@@ -211,10 +209,8 @@ const utils = {
             mydb.get(docName, (err, document) => {
                 if (err) {
                     if (err.message == 'missing') {
-                        logger.warn(`Document id ${id} does not exist.`, 'findById()');
                         resolve({ data: {}, statusCode: 404 });
                     } else {
-                        logger.error('Error occurred: ' + err.message, 'findById()');
                         reject(err);
                     }
                 } else {
@@ -277,7 +273,6 @@ const utils = {
             };
             mydb.insert(list, (err, result) => {
                 if (err) {
-                    logger.error('Error occurred: ' + err.message, 'create()');
                     reject(err);
                 } else {
                     resolve({ 
@@ -354,7 +349,6 @@ const utils = {
             };
             mydb.insert(list, (err, result) => {
                 if (err) {
-                    logger.error('Error occurred: ' + err.message, 'create()');
                     reject(err);
                 } else {
                     resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
@@ -409,7 +403,6 @@ const utils = {
             };
             mydb.insert(list, (err, result) => {
                 if (err) {
-                    logger.error('Error occurred: ' + err.message, 'create()');
                     reject(err);
                 } else {
                     resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
@@ -456,7 +449,6 @@ const utils = {
             };
             mydb.insert(list, (err, result) => {
                 if (err) {
-                    logger.error('Error occurred: ' + err.message, 'create()');
                     reject(err);
                 } else {
                     resolve({ data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201 });
@@ -466,7 +458,7 @@ const utils = {
     },
 
     //Insert new order in Orders document
-    inserOrder: function inserOrder(id, rev, newTransactionDetails) {
+    insertOrder: function insertOrder(id, rev, newTransactionDetails) {
         var mydb = cloudant.db.use('green-production');
 
         return new Promise((resolve, reject) => { 

@@ -11,7 +11,7 @@ const userhelper = {
       let rev = "";
       let user_details = [];
 
-      let userID = request.body.user_ID;
+      let userID = request.user_ID;
 
       if (
           docList != null &&
@@ -30,7 +30,7 @@ const userhelper = {
 
       user_details.forEach((user) => {
           if (user.user_ID == userID) {
-              user = utils.mapUserUpdateToModel(user, request.body);
+              user = utils.mapUserUpdateToModel(user, request);
           }
       });
 
@@ -95,8 +95,7 @@ const userhelper = {
         return user_details;
     },
 
-    getUserHelper: async function getUserHelper(request, fastify) {
-        const { userName } = request.body;
+    getUserHelper: async function getUserHelper(userName, user_ID) {
 
         //Find all available docs
         let docList = await utils.findAllDocs();
@@ -117,9 +116,9 @@ const userhelper = {
                 id = docFound.id;
                 rev = docFound.doc._rev;                
 
-                if (userName) {
+                if (userName || user_ID) {
                     const userFound = docFound.doc.user_details.find(
-                        (user) => user.user_name === userName
+                        (user) => user.user_name === userName || user.user_ID === user_ID
                     );
                     if (userFound) {
                         user_details = userFound;

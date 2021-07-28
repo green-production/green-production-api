@@ -1,3 +1,5 @@
+import utils from '../utils/utils.js';
+
 const carthelper = {
 
     getAllCarts: function getAllCarts(docList) {
@@ -23,7 +25,23 @@ const carthelper = {
             cartRev: rev,
             cartdetails: cart_details
         };
-    }
+    },
+
+    deleteCartHelper: async function deleteCartHelper(user_ID) {        
+  
+        //Find all available docs
+        let docList = await utils.findAllDocs();
+        let cart_details = []; 
+
+        const {cartID, cartRev, cartdetails} = carthelper.getAllCarts(docList);
+
+        cart_details = utils.removeCartByUserID(cartdetails, 'user_ID', user_ID);
+
+        //Insert updated user details array in Users document
+        let docInfo = await utils.insertCartItem(cartID, cartRev, cart_details);
+
+        return docInfo;
+    } 
 
 }
 

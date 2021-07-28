@@ -77,18 +77,9 @@ export default async function(fastify, options, next) {
       preValidation: [fastify.authentication]
       }, async (request, reply) => {
           
-      const {user_ID} = request.body
-  
-      //Find all available docs
-      let docList = await utils.findAllDocs();
-      let cart_details = []; 
-
-      const {cartID, cartRev, cartdetails} = carthelper.getAllCarts(docList);
-  
-      cart_details = utils.removeCartByUserID(cartdetails, 'user_ID', user_ID);
-  
-      //Insert updated user details array in Users document
-      let docInfo = await utils.insertCartItem(cartID, cartRev, cart_details);
+        const {user_ID} = request.body;
+          
+        let docInfo = await carthelper.deleteCartHelper(user_ID);
   
       reply.send(docInfo)
     })

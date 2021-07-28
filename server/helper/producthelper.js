@@ -48,7 +48,7 @@ const producthelper = {
       //Find all available docs
       var docList = await utils.findAllDocs();
     
-      let prod_ID = request.body.product_ID;
+      let prod_ID = request.product_ID;
   
       let product_details = [];
       
@@ -59,7 +59,7 @@ const producthelper = {
   
       product_details.forEach(product => {
           if(product.product_ID == prod_ID) {
-              product = utils.mapProductUpdateToModel(product, request.body);
+              product = utils.mapProductUpdateToModel(product, request);
           }         
       });
   
@@ -67,6 +67,31 @@ const producthelper = {
       var docInfo = await utils.insertProductInfo(productID, productRev, product_details);
 
       return docInfo;
+    },
+
+    getProductInfoHelper: async function getProductInfoHelper(product_ID) {
+      //Find all available docs
+      var docList = await utils.findAllDocs();
+      var product_details = {};
+
+      if (
+          docList != null &&
+          docList.data != null &&
+          docList.data.total_rows > 0
+      ) {
+          docList.data.rows.forEach((element) => {
+              //Extract information from Products document
+              if (element.doc.type == "Products") {
+                  element.doc.product_details.forEach((product) => {
+                      if (product.product_ID == product_ID) {
+                          product_details = product;
+                      }
+                  });
+              }
+          });
+      }
+
+      return product_details;
     }
 }
 

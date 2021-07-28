@@ -72,7 +72,7 @@ export default async function (fastify, options, next) {
         },
         async (request, reply) => {
 
-            var docInfo = await producthelper.updateProductHelper(request);
+            var docInfo = await producthelper.updateProductHelper(request.body);
 
             reply.send(docInfo);
         }
@@ -80,28 +80,9 @@ export default async function (fastify, options, next) {
 
     // Get Product Info
     fastify.post("/api/products/product-info", async (request, reply) => {
-        //Find all available docs
-        var docList = await utils.findAllDocs();
 
         var product_ID = request.body.product_ID;
-        var product_details = {};
-
-        if (
-            docList != null &&
-            docList.data != null &&
-            docList.data.total_rows > 0
-        ) {
-            docList.data.rows.forEach((element) => {
-                //Extract information from Products document
-                if (element.doc.type == "Products") {
-                    element.doc.product_details.forEach((product) => {
-                        if (product.product_ID == product_ID) {
-                            product_details = product;
-                        }
-                    });
-                }
-            });
-        }
+        var product_details = await producthelper.getProductInfoHelper(product_ID);
 
         reply.code(200).send(product_details);
     });
