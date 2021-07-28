@@ -1,4 +1,5 @@
 import {v1 as uuidv1} from 'uuid';
+import utils from '../utils/utils.js';
 
 const producthelper = {
 
@@ -41,8 +42,32 @@ const producthelper = {
         product_details.push(newProductObj);
         
         return product_details;
-    }
+    },
 
+    updateProductHelper: async function updateProductHelper(request) {
+      //Find all available docs
+      var docList = await utils.findAllDocs();
+    
+      let prod_ID = request.body.product_ID;
+  
+      let product_details = [];
+      
+      //Get all product details
+      const {productID, productRev, productDetails} = producthelper.getAllProducts(docList);
+
+      product_details = productDetails;
+  
+      product_details.forEach(product => {
+          if(product.product_ID == prod_ID) {
+              product = utils.mapProductUpdateToModel(product, request.body);
+          }         
+      });
+  
+      //Insert updated product details array in Products document
+      var docInfo = await utils.insertProductInfo(productID, productRev, product_details);
+
+      return docInfo;
+    }
 }
 
 export default producthelper
