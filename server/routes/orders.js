@@ -50,5 +50,31 @@ export default async function(fastify, options, next) {
     
     })
 
+    //Get orders for an user
+    fastify.post('/api/orders/get-orders', {
+        preValidation: [fastify.authentication]
+        }, async (request, reply) => {
+
+        const {user_ID} = request.body
+        let transactions = []
+    
+        //Find all available Orders docs
+        let docList = await utils.findAllDocs();
+        
+        //Get all order details
+        const {orderID, orderRev, transactionDetails} = orderhelper.getAllOrders(docList);
+
+        transactionDetails.forEach(orders => {
+            if(orders.user_ID == user_ID)
+            {
+                transactions = orders.transactions;
+            }
+        })
+
+        //Send reply
+        reply.code(201).send(transactions)
+    
+    })
+
     next()
 }
