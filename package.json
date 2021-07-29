@@ -11,6 +11,8 @@
     "fastify": "^3.19.1",
     "fastify-cors": "^6.0.2",
     "fastify-jwt": "^3.0.0",
+    "fastify-multer": "^2.0.2",
+    "fastify-multipart": "^4.0.7",
     "fastify-plugin": "^3.0.0",
     "fastify-swagger": "^4.8.3",
     "google-auth-library": "^7.3.0",
@@ -19,6 +21,7 @@
     "validator": "^13.6.0"
   },
   "devDependencies": {
+    "@types/busboy": "^0.2.4",
     "env-cmd": "^10.1.0",
     "nodemon": "^2.0.12"
   },
