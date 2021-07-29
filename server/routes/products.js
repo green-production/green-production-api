@@ -1,5 +1,6 @@
 import utils from "../utils/utils.js";
 import producthelper from "../helper/producthelper.js";
+import upload from "../middleware/upload-parser.js";
 
 export default async function (fastify, options, next) {
     //Create a new Products document(Admin API - One time)
@@ -38,7 +39,7 @@ export default async function (fastify, options, next) {
 
             product_details = producthelper.newProductObj(
                 productDetails,
-                request
+                request.body
             );
 
             //Insert updated product details array in products document

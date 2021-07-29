@@ -1,4 +1,4 @@
-
+import multer from "fastify-multer";
 
 const upload = multer({
     limits: {
@@ -13,3 +13,5 @@ const upload = multer({
         cb(undefined, true)
     }
 })
+
+export default upload

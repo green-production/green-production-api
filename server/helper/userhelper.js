@@ -41,7 +41,7 @@ const userhelper = {
     },
 
     userLoginHelper: async function userLoginHelper(request, fastify) {
-        const { userName, password } = request.body;
+        const { user_name, password } = request.body;
 
         //Find all available docs
         let docList = await utils.findAllDocs();
@@ -62,18 +62,18 @@ const userhelper = {
                 id = docFound.id;
                 rev = docFound.doc._rev;
 
-                if ((userName && password) || (userName && !password)) {
+                if ((user_name && password) || (user_name && !password)) {
                     const userFound = docFound.doc.user_details.find(
                         (user) =>
                             !password
-                                ? user.email === userName
-                                : user.user_name === userName &&
+                                ? user.email === user_name
+                                : user.user_name === user_name &&
                                     user.password === password
                     );
                     if (userFound) {
                         user_details = userFound;
                         user_details.token = fastify.jwt.sign(
-                            { userName, password: userFound.password },
+                            { user_name, password: userFound.password },
                             { expiresIn: "1 day" }
                         );
                     } else {

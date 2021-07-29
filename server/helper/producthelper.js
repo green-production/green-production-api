@@ -32,7 +32,7 @@ const producthelper = {
         //Create new product object
         var newProductObj = {
             'product_ID': uuidv1(),
-            ...request.body,
+            ...request,
             'isApproved' : false,
             'created_dt': new Date().toISOString(),
             'updated_dt': new Date().toISOString()
