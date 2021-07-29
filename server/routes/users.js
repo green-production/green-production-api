@@ -66,9 +66,9 @@ export default async function (fastify, options, next) {
     // Get User details by username
     fastify.post("/api/users/profile", async (request, reply) => {
         try {
-            const { userName, user_ID } = request.body;
+            const { user_name, user_ID } = request.body;
             
-            let user_details = await userhelper.getUserHelper(userName, user_ID);
+            let user_details = await userhelper.getUserHelper(user_name, user_ID);
 
             if (user_details != null && user_details.user_name) {
                 reply.code(200).send(user_details);
