@@ -64,7 +64,7 @@ export default async function (fastify, options, next) {
     });
 
     // Get User details by username
-    fastify.post("/api/users/get-user", async (request, reply) => {
+    fastify.post("/api/users/profile", async (request, reply) => {
         try {
             const { userName, user_ID } = request.body;
             
