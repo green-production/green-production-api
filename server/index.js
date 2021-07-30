@@ -31,6 +31,7 @@ fastify.register(import("./routes/users.js"));
 fastify.register(import("./routes/products.js"));
 fastify.register(import("./routes/cart.js"));
 fastify.register(import("./routes/orders.js"));
+fastify.register(import("./routes/faker-apis.js"))
 
 // Run the server!
 fastify.listen(process.env.PORT, "0.0.0.0", function (err, address) {

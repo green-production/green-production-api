@@ -108,6 +108,15 @@ export default async function (fastify, options, next) {
         reply.code(200).send(product_details);
     });
 
+    // Search product
+    fastify.post("/api/products/search-product", async (request, reply) => {
+
+        const {product_name, product_category, product_sub_category} = request.body;
+        let product_details = await producthelper.searchProductsHelper(product_name,product_category,product_sub_category);
+
+        reply.code(200).send(product_details);
+    });
+
     // Get Seller Listings
     fastify.post(
         "/api/products/seller-listings",

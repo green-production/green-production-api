@@ -93,7 +93,45 @@ const producthelper = {
       }
 
       return product_details;
-    }
+    },
+
+    searchProductsHelper: async function searchProductsHelper(product_name, product_category, product_sub_category) {
+        //Find all available docs
+        var docList = await utils.findAllDocs();
+        let product_details = [];
+
+        let pName = product_name != '' ? product_name : null;
+        let pCat = product_category != '' ? product_category : "no data";
+        let pSubCat = product_sub_category != '' ? product_sub_category : null;
+
+        console.log('pCat', pCat);
+
+        if(product_name == '' && product_category == '' && product_sub_category == '')
+        {
+            return product_details;
+        }
+  
+        if (
+            docList != null &&
+            docList.data != null &&
+            docList.data.total_rows > 0
+        ) {
+            docList.data.rows.forEach((element) => {
+                //Extract information from Products document
+                if (element.doc.type == "Products") {
+                    element.doc.product_details.forEach((product) => {
+                        if (product.product_name.includes(pName)
+                            || product.product_category.includes(pCat)
+                            || product.product_sub_category.includes(pSubCat)) {
+                            product_details.push(product);
+                        }
+                    });
+                }
+            });
+        }
+  
+        return product_details;
+      }
 }
 
 export default producthelper
