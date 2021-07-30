@@ -28,12 +28,13 @@ const producthelper = {
         };
     },
 
-    newProductObj: function newProductObj(product_details, request) {
+    newProductObj: function newProductObj(product_details, request, buffer, hasBuffer) {
         //Create new product object
         var newProductObj = {
             'product_ID': uuidv1(),
             ...request,
             'isApproved' : false,
+            'image-buffer': hasBuffer ? buffer : '',
             'created_dt': new Date().toISOString(),
             'updated_dt': new Date().toISOString()
         };

@@ -27,8 +27,26 @@ export default async function (fastify, options, next) {
         "/api/products/new-product",
         {
             preValidation: [fastify.authentication],
+            preHandler: upload.single('file')                        
         },
         async (request, reply) => {
+
+            console.log('request.body', request.body)
+
+            let buffer = '';
+            let hasBuffer = false;
+
+            if(request.file)
+            {
+                buffer = await request.file.buffer;
+                if(buffer)
+                {
+                    hasBuffer = true;
+                }
+            }            
+
+            console.log('buffer', buffer)
+
             //Find all available docs
             var docList = await utils.findAllDocs();
             var product_details = [];
@@ -39,7 +57,9 @@ export default async function (fastify, options, next) {
 
             product_details = producthelper.newProductObj(
                 productDetails,
-                request.body
+                request.body,
+                buffer,
+                hasBuffer
             );
 
             //Insert updated product details array in products document
