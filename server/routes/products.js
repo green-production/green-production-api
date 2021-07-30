@@ -23,131 +23,165 @@ export default async function (fastify, options, next) {
     });
 
     //Create New Product
-    fastify.post(
-        "/api/products/new-product",
+    fastify.post("/api/products/new-product",
         {
             preValidation: [fastify.authentication],
             preHandler: upload.single('file')                        
         },
         async (request, reply) => {
 
-            console.log('request.body', request.body)
+            try {
 
-            let buffer = '';
-            let hasBuffer = false;
+                let buffer = '';
+                let hasBuffer = false;
 
-            if(request.file)
-            {
-                buffer = await request.file.buffer;
-                if(buffer)
+                if(request.file)
                 {
-                    hasBuffer = true;
+                    buffer = await request.file.buffer;
+                    if(buffer)
+                    {
+                        hasBuffer = true;
+                    }
                 }
+
+                //Find all available docs
+                var docList = await utils.findAllDocs();
+                var product_details = [];
+
+                //Get all product details
+                const { productID, productRev, productDetails } =
+                    producthelper.getAllProducts(docList);
+
+                product_details = producthelper.newProductObj(
+                    productDetails,
+                    request.body,
+                    buffer,
+                    hasBuffer
+                );
+
+                //Insert updated product details array in products document
+                var docInfo = await utils.insertProductInfo(
+                    productID,
+                    productRev,
+                    product_details
+                );
+
+                reply.code(201).send(docInfo);
+                
+            } catch (error) {
+                reply.code(500).send(error);
             }            
-
-            console.log('buffer', buffer)
-
-            //Find all available docs
-            var docList = await utils.findAllDocs();
-            var product_details = [];
-
-            //Get all product details
-            const { productID, productRev, productDetails } =
-                producthelper.getAllProducts(docList);
-
-            product_details = producthelper.newProductObj(
-                productDetails,
-                request.body,
-                buffer,
-                hasBuffer
-            );
-
-            //Insert updated product details array in products document
-            var docInfo = await utils.insertProductInfo(
-                productID,
-                productRev,
-                product_details
-            );
-
-            reply.code(201).send(docInfo);
         }
     );
 
     // Get All Products
     fastify.get("/api/products", async (request, reply) => {
-        //Find all available docs
-        var docList = await utils.findAllDocs();
 
-        //Get all product details
-        const { productID, productRev, productDetails } =
-            producthelper.getAllProducts(docList);
+        try {
 
-        reply.code(200).send(productDetails);
+            //Find all available docs
+            var docList = await utils.findAllDocs();
+
+            //Get all product details
+            const { productID, productRev, productDetails } =
+                producthelper.getAllProducts(docList);
+
+            reply.code(200).send(productDetails);
+            
+        } catch (error) {
+            reply.code(500).send(error);
+        }
+        
     });
 
     //Update Existing Product (Admin can use this to approve a product)
-    fastify.post(
-        "/api/products/update-product",
+    fastify.post("/api/products/update-product",
         {
             preValidation: [fastify.authentication],
         },
         async (request, reply) => {
 
-            var docInfo = await producthelper.updateProductHelper(request.body);
+            try {
 
-            reply.send(docInfo);
+                var productObj = await producthelper.updateProductHelper(request.body);
+
+                reply.send(productObj);
+                
+            } catch (error) {
+
+                reply.code(500).send(error);
+                
+            }
+
+            
         }
     );
 
     // Get Product Info
     fastify.post("/api/products/product-info", async (request, reply) => {
 
-        var product_ID = request.body.product_ID;
-        var product_details = await producthelper.getProductInfoHelper(product_ID);
+        try {
+            var product_ID = request.body.product_ID;
+            var product_details = await producthelper.getProductInfoHelper(product_ID);
 
-        reply.code(200).send(product_details);
+            reply.code(200).send(product_details);
+        } catch (error) {
+            reply.code(500).send(error);
+        }        
     });
 
     // Search product
     fastify.post("/api/products/search-product", async (request, reply) => {
 
-        const {product_name, product_category, product_sub_category} = request.body;
-        let product_details = await producthelper.searchProductsHelper(product_name,product_category,product_sub_category);
+        try {
 
-        reply.code(200).send(product_details);
+            const {product_name, product_category, product_sub_category} = request.body;
+            let product_details = await producthelper.searchProductsHelper(product_name,product_category,product_sub_category);
+
+            reply.code(200).send(product_details);
+            
+        } catch (error) {
+            reply.code(500).send(error);
+        }        
     });
 
     // Get Seller Listings
-    fastify.post(
-        "/api/products/seller-listings",
+    fastify.post("/api/products/seller-listings",
         {
             preValidation: [fastify.authentication],
         },
         async (request, reply) => {
-            //Find all available docs
-            var docList = await utils.findAllDocs();
 
-            var seller_ID = request.body.seller_ID;
-            var product_details = [];
+            try {
 
-            if (
-                docList != null &&
-                docList.data != null &&
-                docList.data.total_rows > 0
-            ) {
-                docList.data.rows.forEach((element) => {
-                    //Extract information from Products document
-                    if (element.doc.type == "Products") {
-                        element.doc.product_details.forEach((product) => {
-                            if (product.seller_ID == seller_ID) {
-                                product_details.push(product);
-                            }
-                        });
-                    }
-                });
-            }
+                //Find all available docs
+                var docList = await utils.findAllDocs();
 
-            reply.code(200).send(product_details);
+                var seller_ID = request.body.seller_ID;
+                var product_details = [];
+
+                if (
+                    docList != null &&
+                    docList.data != null &&
+                    docList.data.total_rows > 0
+                ) {
+                    docList.data.rows.forEach((element) => {
+                        //Extract information from Products document
+                        if (element.doc.type == "Products") {
+                            element.doc.product_details.forEach((product) => {
+                                if (product.seller_ID == seller_ID) {
+                                    product_details.push(product);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                reply.code(200).send(product_details);
+                
+            } catch (error) {
+                reply.code(500).send(error);
+            }            
         }
     );
 

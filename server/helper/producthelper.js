@@ -49,9 +49,9 @@ const producthelper = {
       //Find all available docs
       var docList = await utils.findAllDocs();
     
-      let prod_ID = request.product_ID;
-  
+      let prod_ID = request.product_ID;  
       let product_details = [];
+      let productObj = {};
       
       //Get all product details
       const {productID, productRev, productDetails} = producthelper.getAllProducts(docList);
@@ -61,13 +61,14 @@ const producthelper = {
       product_details.forEach(product => {
           if(product.product_ID == prod_ID) {
               product = utils.mapProductUpdateToModel(product, request);
+              productObj = product;
           }         
       });
   
       //Insert updated product details array in Products document
       var docInfo = await utils.insertProductInfo(productID, productRev, product_details);
 
-      return docInfo;
+      return productObj;
     },
 
     getProductInfoHelper: async function getProductInfoHelper(product_ID) {
