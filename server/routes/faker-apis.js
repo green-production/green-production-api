@@ -89,7 +89,7 @@ export default async function (fastify, options, next) {
     );
 
     //Create New Product
-    fastify.post("/api/products/faker-new-product",
+    fastify.get("/api/products/faker-new-product",
         {
             preValidation: [fastify.authentication],
             preHandler: upload.single('file')                        
@@ -98,7 +98,7 @@ export default async function (fastify, options, next) {
 
             console.log('request.body', request.body)
 
-            let buffer = await request.file.buffer;   
+            //let buffer = await request.file.buffer;
 
             //Find all available docs
             var docList = await utils.findAllDocs();
@@ -107,7 +107,7 @@ export default async function (fastify, options, next) {
             const { productID, productRev, productDetails } =
                 producthelper.getAllProducts(docList);
 
-            for( let i = 0; i< 10; i++)
+            for( let i = 0; i< 50; i++)
             {
                 //Create new product object
                 let productObj = {
@@ -122,7 +122,7 @@ export default async function (fastify, options, next) {
                     product_category: faker.commerce.department(),
                     product_sub_category: faker.commerce.product(),
                     isApproved: true,
-                    image_buffer: buffer,
+                    image_buffer: {},
                     created_dt: new Date().toISOString(),
                     updated_dt: new Date().toISOString()
                 };

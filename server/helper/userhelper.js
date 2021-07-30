@@ -35,6 +35,7 @@ const userhelper = {
       let id = "";
       let rev = "";
       let user_details = [];
+      let userObj = {};
 
       let userID = request.user_ID;
 
@@ -56,13 +57,14 @@ const userhelper = {
       user_details.forEach((user) => {
           if (user.user_ID == userID) {
               user = utils.mapUserUpdateToModel(user, request);
+              userObj = user;
           }
       });
 
       //Insert updated user details array in Users document
       let docInfo = await utils.insertUserInfo(id, rev, user_details);
 
-      return docInfo;
+      return userObj;
     },
 
     userLoginHelper: async function userLoginHelper(request, fastify) {

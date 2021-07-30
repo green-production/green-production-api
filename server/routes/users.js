@@ -153,10 +153,16 @@ export default async function (fastify, options, next) {
             preValidation: [fastify.authentication],
         },
         async (request, reply) => {
-            
-            var docInfo = await userhelper.updateUserHelper(request.body);
+            try {
+                
+                var userObj = await userhelper.updateUserHelper(request.body);
 
-            reply.send(docInfo);
+                reply.send(userObj);
+                
+            } catch (error) {
+                reply.code(400).send(error);
+            }            
+            
         }
     );
 
