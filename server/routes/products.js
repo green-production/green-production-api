@@ -111,9 +111,7 @@ export default async function (fastify, options, next) {
 
                 reply.code(500).send(error);
                 
-            }
-
-            
+            }            
         }
     );
 
