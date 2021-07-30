@@ -89,8 +89,7 @@ export default async function (fastify, options, next) {
     });
 
     //Create New User
-    fastify.post(
-        "/api/users/sign-up",
+    fastify.post("/api/users/sign-up",
         newUserSchema,
         async (request, reply) => {
             try {
@@ -162,8 +161,7 @@ export default async function (fastify, options, next) {
     );
 
     //Update Existing User - their user profile
-    fastify.post(
-        "/api/users/update-profile",
+    fastify.post("/api/users/update-profile",
         {
             preValidation: [fastify.authentication],
         },
