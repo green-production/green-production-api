@@ -34,7 +34,7 @@ const producthelper = {
             'product_ID': uuidv1(),
             ...request,
             'isApproved' : false,
-            'image-buffer': hasBuffer ? buffer : '',
+            'image_buffer': hasBuffer ? buffer : '',
             'created_dt': new Date().toISOString(),
             'updated_dt': new Date().toISOString()
         };
