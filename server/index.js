@@ -49,14 +49,6 @@ fastify.register(import("./routes/cart.js"));
 fastify.register(import("./routes/orders.js"));
 fastify.register(import("./routes/faker-apis.js"))
 
-fastify.get('*', async (request, reply) => {
-  try {
-    console.log('hi------------------')
-    return reply.redirect('index.html')
-  } catch (e) {
-    console.log(e)
-  }
-});
 
 // Run the server!
 fastify.listen(process.env.PORT, "0.0.0.0", function (err, address) {
