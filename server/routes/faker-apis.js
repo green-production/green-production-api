@@ -107,7 +107,7 @@ export default async function (fastify, options, next) {
             const { productID, productRev, productDetails } =
                 producthelper.getAllProducts(docList);
 
-            for( let i = 0; i< 50; i++)
+            for( let i = 0; i< 450; i++)
             {
                 //Create new product object
                 let productObj = {
