@@ -18,6 +18,14 @@ fastify.register(import('fastify-static'), {
   root: path.join(__dirname, '/client/build/index.html')
 })
 
+fastify.get('*', async (request, reply) => {
+  try {
+    return reply.sendFile('index.html')
+  } catch (e) {
+    console.log(e)
+  }
+});
+
 fastify.register(swagger, {
     exposeRoute: true,
     routePrefix: "/docs",
@@ -41,13 +49,6 @@ fastify.register(import("./routes/cart.js"));
 fastify.register(import("./routes/orders.js"));
 fastify.register(import("./routes/faker-apis.js"))
 
-fastify.get('/', async (request, reply) => {
-  try {
-    return reply.sendFile('index.html')
-  } catch (e) {
-    console.log(e)
-  }
-});
 
 // Run the server!
 fastify.listen(process.env.PORT, "0.0.0.0", function (err, address) {
