@@ -19,7 +19,7 @@ fastify.register(import('fastify-static'), {
   root: path.join(__dirname, '/client/build/')
 })
 
-fastify.get('*', async (request, reply) => {
+fastify.get('/', async (request, reply) => {
   try {
     return reply.sendFile('index.html')
   } catch (e) {
