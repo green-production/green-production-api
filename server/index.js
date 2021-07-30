@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 // console.log('path', path.join(__dirname, '..', '/client/build/index.html'))
 fastify.register(import('fastify-static'), {
-  root: path.join(__dirname, '/client/build/')
+  root: path.join(__dirname, '..', '/client/build/')
 })
 
 fastify.get('/', async (request, reply) => {
