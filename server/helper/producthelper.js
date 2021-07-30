@@ -100,16 +100,14 @@ const producthelper = {
         var docList = await utils.findAllDocs();
         let product_details = [];
 
-        let pName = product_name != '' ? product_name : null;
-        let pCat = product_category != '' ? product_category : "no data";
-        let pSubCat = product_sub_category != '' ? product_sub_category : null;
+        product_name = product_name || null;
+        product_category = product_category || null;
+        product_sub_category = product_sub_category || null;
 
-        console.log('pCat', pCat);
-
-        if(product_name == '' && product_category == '' && product_sub_category == '')
-        {
-            return product_details;
-        }
+        // if(product_name == '' && product_category == '' && product_sub_category == '')
+        // {
+        //     return product_details;
+        // }
   
         if (
             docList != null &&
@@ -120,9 +118,9 @@ const producthelper = {
                 //Extract information from Products document
                 if (element.doc.type == "Products") {
                     element.doc.product_details.forEach((product) => {
-                        if (product.product_name.includes(pName)
-                            || product.product_category.includes(pCat)
-                            || product.product_sub_category.includes(pSubCat)) {
+                        if (product.product_name.includes(product_name)
+                            || product.product_category.includes(product_category)
+                            || product.product_sub_category.includes(product_sub_category)) {
                             product_details.push(product);
                         }
                     });
