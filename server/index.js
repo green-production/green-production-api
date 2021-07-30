@@ -1,7 +1,7 @@
 // Require the framework and instantiate it
 import Fastify from "fastify";
 import { fileURLToPath } from 'url';
-const fastify = Fastify({ logger: true });
+const fastify = Fastify({ logger: false });
 import swagger from "fastify-swagger";
 import jwt from "fastify-jwt";
 import auth from "./middleware/auth.js";
@@ -19,7 +19,7 @@ fastify.register(import('fastify-static'), {
   root: path.join(__dirname, '..', '/client/build/')
 })
 
-fastify.get('/', async (request, reply) => {
+fastify.get('/:xx', async (request, reply) => {
   try {
     return reply.sendFile('index.html')
   } catch (e) {
@@ -28,16 +28,16 @@ fastify.get('/', async (request, reply) => {
 });
 
 fastify.register(swagger, {
-    exposeRoute: true,
-    routePrefix: "/docs",
-    swagger: {
-        info: {
-            title: "GreenyTale",
-            description: "Testing GreenyTale API",
-            version: "1.0.0",
-        },
-        host: "localhost",
+  exposeRoute: true,
+  routePrefix: "/docs",
+  swagger: {
+    info: {
+      title: "GreenyTale",
+      description: "Testing GreenyTale API",
+      version: "1.0.0",
     },
+    host: "localhost",
+  },
 });
 
 fastify.register(import("fastify-cors"));
@@ -49,6 +49,14 @@ fastify.register(import("./routes/cart.js"));
 fastify.register(import("./routes/orders.js"));
 fastify.register(import("./routes/faker-apis.js"))
 
+fastify.get('*', async (request, reply) => {
+  try {
+    console.log('hi------------------')
+    return reply.redirect('index.html')
+  } catch (e) {
+    console.log(e)
+  }
+});
 
 // Run the server!
 fastify.listen(process.env.PORT, "0.0.0.0", function (err, address) {
