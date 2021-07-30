@@ -40,7 +40,6 @@ fastify.register(swagger, {
 });
 
 fastify.register(import("fastify-cors"));
-
 fastify.register(auth);
 fastify.register(multer.contentParser);
 fastify.register(import("./routes/users.js"));
