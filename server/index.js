@@ -1,14 +1,22 @@
 // Require the framework and instantiate it
 import Fastify from "fastify";
+import { fileURLToPath } from 'url';
 const fastify = Fastify({ logger: true });
 import swagger from "fastify-swagger";
 import jwt from "fastify-jwt";
 import auth from "./middleware/auth.js";
 import multer from "fastify-multer";
+import path, { dirname } from 'path'
 
 fastify.register(jwt, {
     secret: process.env.JWT_SECRET_KEY,
 });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+fastify.register(import('fastify-static'), {
+  root: path.join(__dirname, '/client/build/index.html')
+})
 
 fastify.register(swagger, {
     exposeRoute: true,
@@ -32,6 +40,14 @@ fastify.register(import("./routes/products.js"));
 fastify.register(import("./routes/cart.js"));
 fastify.register(import("./routes/orders.js"));
 fastify.register(import("./routes/faker-apis.js"))
+
+fastify.get('/', async (request, reply) => {
+  try {
+    return reply.sendFile('index.html')
+  } catch (e) {
+    console.log(e)
+  }
+});
 
 // Run the server!
 fastify.listen(process.env.PORT, "0.0.0.0", function (err, address) {

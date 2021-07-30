@@ -1,7 +1,6 @@
 import { v1 as uuid } from "uuid";
 import utils from "../utils/utils.js";
 import { newUserSchema } from "../schema/users.js";
-import GoogleAuth from "../middleware/google-auth.js";
 import userhelper from "../helper/userhelper.js";
 
 export default async function (fastify, options, next) {
