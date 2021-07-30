@@ -20,33 +20,39 @@ export default async function(fastify, options, next) {
         preValidation: [fastify.authentication]
         }, async (request, reply) => {
 
-        const {user_ID, products} = request.body
-    
-        //Find all available Orders docs
-        let docList = await utils.findAllDocs();
-        let transaction_details = [];
-        let update_product_request = {}
-        let update_user_request = {
-            user_ID : '',
-            sold_product_ID: []
-        }
+        try {
+
+            const {user_ID, products} = request.body
+
+            //Find all available Orders docs
+            let docList = await utils.findAllDocs();
+            let transaction_details = [];
+            let update_product_request = {}
+            let update_user_request = {
+                user_ID : '',
+                sold_product_ID: []
+            }
+            
+            //Get all order details
+            const {orderID, orderRev, transactionDetails} = orderhelper.getAllOrders(docList);
+
+            //Insert new order object in the array
+            transaction_details = orderhelper.newOrderObj(user_ID, products, transactionDetails);
         
-        //Get all order details
-        const {orderID, orderRev, transactionDetails} = orderhelper.getAllOrders(docList);
+            //Step 1: Insert order in Orders document
+            let orderDocInfo = await utils.insertOrder(orderID, orderRev, transaction_details);
 
-        //Insert new order object in the array
-        transaction_details = orderhelper.newOrderObj(user_ID, products, transactionDetails);
-      
-        //Step 1: Insert order in Orders document
-        let orderDocInfo = await utils.insertOrder(orderID, orderRev, transaction_details);
+            //Step 2: Delete Cart
+            await carthelper.deleteCartHelper(user_ID); 
 
-        //Step 2: Delete Cart
-        await carthelper.deleteCartHelper(user_ID); 
+            let finalUpdateInfo = await orderhelper.performFinalUpdates(products);
 
-        let finalUpdateInfo = await orderhelper.performFinalUpdates(products);
-
-        //Send reply
-        reply.code(201).send(orderDocInfo)
+            //Send reply
+            reply.code(201).send(orderDocInfo)
+            
+        } catch (error) {
+            reply.code(500).send(error)
+        }        
     
     })
 
@@ -55,25 +61,30 @@ export default async function(fastify, options, next) {
         preValidation: [fastify.authentication]
         }, async (request, reply) => {
 
-        const {user_ID} = request.body
-        let transactions = []
-    
-        //Find all available Orders docs
-        let docList = await utils.findAllDocs();
+        try {
+
+            const {user_ID} = request.body
+            let transactions = []
         
-        //Get all order details
-        const {orderID, orderRev, transactionDetails} = orderhelper.getAllOrders(docList);
+            //Find all available Orders docs
+            let docList = await utils.findAllDocs();
+            
+            //Get all order details
+            const {orderID, orderRev, transactionDetails} = orderhelper.getAllOrders(docList);
 
-        transactionDetails.forEach(orders => {
-            if(orders.user_ID == user_ID)
-            {
-                transactions = orders.transactions;
-            }
-        })
+            transactionDetails.forEach(orders => {
+                if(orders.user_ID == user_ID)
+                {
+                    transactions = orders.transactions;
+                }
+            })
 
-        //Send reply
-        reply.code(201).send(transactions)
-    
+            //Send reply
+            reply.code(201).send(transactions)
+            
+        } catch (error) {
+            reply.code(500).send(error)
+        }    
     })
 
     next()
