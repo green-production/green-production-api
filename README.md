@@ -2,9 +2,9 @@
 
 The APIs are deployed in heroku.
 
-### API List
+## API List
 
-#### Create a new Users document(Admin API - One time)
+### Create a new Users document(Admin API - One time)
   - API: https://greenytale.herokuapp.com/api/users/new-user-doc
   - Type: POST
   - Auth: Not required
@@ -38,7 +38,7 @@ The APIs are deployed in heroku.
   }
   ```
 
-#### Login API
+### Login API
   - API: https://greenytale.herokuapp.com/api/users/login
   - Type: POST
   - Auth: Not required
@@ -51,7 +51,7 @@ The APIs are deployed in heroku.
 }
 ```
 
-#### Profile API
+### Profile API
   - API: https://greenytale.herokuapp.com/api/users/profile
   - Type: POST
   - Auth: Not required
@@ -64,7 +64,7 @@ The APIs are deployed in heroku.
 }
 ```
 
-#### Sign-Up API
+### Sign-Up API
   - API: https://greenytale.herokuapp.com/api/users/sign-up
   - Type: POST
   - Auth: Not required
@@ -95,7 +95,7 @@ The APIs are deployed in heroku.
 }
 ```
 
-#### Update Existing User
+### Update Existing User
   - API: https://greenytale.herokuapp.com/api/users/update-profile
   - Type: POST
   - Auth: Required
@@ -109,7 +109,7 @@ The APIs are deployed in heroku.
 }
 ```
 
-#### Delete Existing User
+### Delete Existing User
   - API: https://greenytale.herokuapp.com/api/users/delete-account
   - Type: POST
   - Auth: Required
@@ -122,7 +122,7 @@ The APIs are deployed in heroku.
 }
 ```
 
-#### Create a new Products document(Admin API - One time)
+### Create a new Products document(Admin API - One time)
   - API: https://greenytale.herokuapp.com/api/products/new-products-doc
   - Type: POST (Send Form-Data)
   - Auth: Not required
@@ -141,7 +141,7 @@ product_sub_category: Fragile Materials
 file: Upload image file with this property
 ```
 
-#### Create New Product
+### Create New Product
   - API: https://greenytale.herokuapp.com/api/products/new-product
   - Type: POST (Send Form-Data)
   - Auth: Required
@@ -161,7 +161,7 @@ product_sub_category: Fragile Materials
 file: Upload image file with this property
 ```
 
-#### Update Existing Product (Admin can use this to approve a product)
+### Update Existing Product (Admin can use this to approve a product)
   - API: https://greenytale.herokuapp.com/api/products/update-product
   - Type: POST
   - Auth: Required
@@ -175,7 +175,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Get All Products
+### Get All Products
   - API: https://greenytale.herokuapp.com/api/products
   - Type: GET
   - Auth: Not required
@@ -185,7 +185,7 @@ file: Upload image file with this property
   No request requried
 ```
 
-#### Get Product Info
+### Get Product Info
   - API: https://greenytale.herokuapp.com/api/products/product-info
   - Type: POST
   - Auth: Not required
@@ -197,7 +197,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Search Product
+### Search Product
   - API: https://greenytale.herokuapp.com/api/products/search-product
   - Type: POST
   - Auth: Not required
@@ -211,7 +211,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Get Seller Listings
+### Get Seller Listings
   - API: https://greenytale.herokuapp.com/api/products/seller-listings
   - Type: POST
   - Auth: Required
@@ -224,7 +224,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Create a new Cart document(Admin API - One time)
+### Create a new Cart document(Admin API - One time)
   - API: https://greenytale.herokuapp.com/api/cart/new-cart-doc
   - Type: POST
   - Auth: Not required
@@ -246,7 +246,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Create a new Cart for user
+### Create a new Cart for user
   - API: https://greenytale.herokuapp.com/api/cart/new-cart
   - Type: POST
   - Auth: Required
@@ -269,7 +269,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Get Cart
+### Get Cart
   - API: https://greenytale.herokuapp.com/api/cart/get-cart
   - Type: POST
   - Auth: Required
@@ -282,7 +282,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Update cart of existing user (includes deletion of product from cart)
+### Update cart of existing user (includes deletion of product from cart)
   - API: https://greenytale.herokuapp.com/api/cart/update-cart
   - Type: POST
   - Auth: Required
@@ -302,7 +302,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Delete user's cart
+### Delete user's cart
   - API: https://greenytale.herokuapp.com/api/cart/delete-cart
   - Type: POST
   - Auth: Required
@@ -315,7 +315,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Create a new Orders document(Admin API - One time)
+### Create a new Orders document(Admin API - One time)
   - API: https://greenytale.herokuapp.com/api/orders/new-orders-doc
   - Type: POST
   - Auth: Not Required
@@ -337,7 +337,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Place a new order
+### Place a new order
   - API: https://greenytale.herokuapp.com/api/orders/new-order
   - Type: POST
   - Auth: Required
@@ -360,7 +360,7 @@ file: Upload image file with this property
 }
 ```
 
-#### Get orders for an user
+### Get orders for an user
   - API: https://greenytale.herokuapp.com/api/orders/get-orders
   - Type: POST
   - Auth: Required
