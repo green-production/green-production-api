@@ -103,11 +103,6 @@ const producthelper = {
         product_name = product_name || null;
         product_category = product_category || null;
         product_sub_category = product_sub_category || null;
-
-        // if(product_name == '' && product_category == '' && product_sub_category == '')
-        // {
-        //     return product_details;
-        // }
   
         if (
             docList != null &&

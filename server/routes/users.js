@@ -160,5 +160,17 @@ export default async function (fastify, options, next) {
         }
     );
 
+    //Delete an user
+    fastify.post('/api/users/delete-account', {
+        preValidation: [fastify.authentication]
+        }, async (request, reply) => {
+            
+          const {user_ID} = request.body;
+            
+          let docInfo = await userhelper.accountDeletionHelper(user_ID);
+    
+        reply.send(docInfo)
+      })
+
     next();
 }

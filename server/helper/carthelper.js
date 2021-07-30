@@ -35,7 +35,7 @@ const carthelper = {
 
         const {cartID, cartRev, cartdetails} = carthelper.getAllCarts(docList);
 
-        cart_details = utils.removeCartByUserID(cartdetails, 'user_ID', user_ID);
+        cart_details = utils.removeByUserID(cartdetails, 'user_ID', user_ID);
 
         //Insert updated user details array in Users document
         let docInfo = await utils.insertCartItem(cartID, cartRev, cart_details);

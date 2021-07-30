@@ -152,20 +152,20 @@ const utils = {
         return cart;
     },
 
-    //Function to Remove cart object
-    removeCartByUserID: function removeCartByUserID(cart_details, user_ID, user_ID_value) { 
+    //Function to Remove object using user_ID
+    removeByUserID: function removeByUserID(details, user_ID, user_ID_value) { 
 
-        var i = cart_details.length;
+        var i = details.length;
         while(i--){
-            if( cart_details[i] 
-                && cart_details[i].hasOwnProperty(user_ID) 
-                && (arguments.length > 2 && cart_details[i][user_ID] === user_ID_value ) ){ 
+            if( details[i] 
+                && details[i].hasOwnProperty(user_ID) 
+                && (arguments.length > 2 && details[i][user_ID] === user_ID_value ) ){ 
 
-                    cart_details.splice(i,1);
+                    details.splice(i,1);
 
             }
         }
-        return cart_details;
+        return details;
     },
 
     //Create Cloudant DB function

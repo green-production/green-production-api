@@ -3,6 +3,31 @@ import utils from '../utils/utils.js';
 
 const userhelper = {
 
+    getAllUsers: function getAllUsers(docList) {
+        let id = '';
+        let rev = '';
+        let user_details = [];        
+
+        if(docList != null && docList.data != null && docList.data.total_rows > 0)
+        {
+            docList.data.rows.forEach(element => {
+        
+                //Extract information from Cart document
+                if(element.doc.type == 'Users')
+                {
+                    id = element.id;
+                    rev = element.doc._rev;
+                    user_details = element.doc.user_details;
+                }
+            });
+        }
+        return {
+            userID: id,
+            userRev: rev,
+            userDetails: user_details
+        };
+    },
+
     updateUserHelper: async function updateUserHelper(request) {
       //Find all available docs
       let docList = await utils.findAllDocs();
@@ -134,6 +159,22 @@ const userhelper = {
   
         return user_details;
     },
+
+    accountDeletionHelper: async function accountDeletionHelper(user_ID) {        
+  
+        //Find all available docs
+        let docList = await utils.findAllDocs();
+        let user_details = []; 
+
+        const {userID, userRev, userDetails} = userhelper.getAllUsers(docList);
+
+        user_details = utils.removeByUserID(userDetails, 'user_ID', user_ID);
+
+        //Insert updated user details array in Users document
+        let docInfo = await utils.insertUserInfo(userID, userRev, user_details);
+
+        return docInfo;
+    }
 
 }
 
