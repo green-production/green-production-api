@@ -86,7 +86,7 @@ export default async function (fastify, options, next) {
             const { productID, productRev, productDetails } =
                 producthelper.getAllProducts(docList);
 
-            reply.code(200).send(productDetails);
+            reply.code(200).send(productDetails.reverse());
             
         } catch (error) {
             reply.code(500).send(error);
