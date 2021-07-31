@@ -136,7 +136,7 @@ export default async function (fastify, options, next) {
                                 CreatedTime: new Date().toISOString(),
                                 UpdatedTime: new Date().toISOString(),
                                 AppCustomer: "GREENYTALE",
-                                ActiveStatus: v === 'ADMIN' ? !!isAdmin : v === 'CONSUMER'
+                                ActiveStatus: v === 'ADMIN' ? !!isAdmin : v !== 'SELLER'
                             };
                         }
                     ),
