@@ -114,9 +114,9 @@ const producthelper = {
                 //Extract information from Products document
                 if (element.doc.type == "Products") {
                     element.doc.product_details.forEach((product) => {
-                        if (product.product_name.includes(product_name)
-                            || product.product_category.includes(product_category)
-                            || product.product_sub_category.includes(product_sub_category)) {
+                        if (( product.product_name?.toLowerCase().includes(product_name?.toLowerCase()) || product_name?.toLowerCase().includes(product.product_name?.toLowerCase()))
+                            || ( product.product_category?.toLowerCase().includes(product_category?.toLowerCase()) || product_category?.toLowerCase().includes(product.product_category?.toLowerCase()))
+                            || ( product.product_sub_category?.toLowerCase().includes(product_sub_category?.toLowerCase()) || product_sub_category?.toLowerCase().includes(product.product_sub_category?.toLowerCase()))) {
                             product_details.push(product);
                         }
                     });
