@@ -1,7 +1,7 @@
 // Require the framework and instantiate it
 import Fastify from "fastify";
 import { fileURLToPath } from 'url';
-const fastify = Fastify({ logger: false });
+const fastify = Fastify({ logger: true });
 import swagger from "fastify-swagger";
 import jwt from "fastify-jwt";
 import auth from "./middleware/auth.js";
@@ -48,7 +48,6 @@ fastify.register(import("./routes/products.js"));
 fastify.register(import("./routes/cart.js"));
 fastify.register(import("./routes/orders.js"));
 fastify.register(import("./routes/faker-apis.js"))
-
 
 // Run the server!
 fastify.listen(process.env.PORT, "0.0.0.0", function (err, address) {
