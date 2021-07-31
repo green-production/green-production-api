@@ -2,7 +2,7 @@ import multer from "fastify-multer";
 
 const upload = multer({
     limits: {
-        fileSize: 1.049e+6
+        fileSize: 9.049e+15
     },
     fileFilter(req, file, cb) {
         // if(!file.originalname.endsWith('.pdf')) { //here we are using endswith method to check if a single file those charactes at the end
